@@ -1,6 +1,6 @@
 # DC Mod Manager app for Android
 
-DC Mod Manager is an app for Android that lets you browse mods/skinss and install them with a single click. These are only cosmetic changes, and do not effect gameplay in any.
+DC Mod Manager is an app for Android that lets you browse mods/skins and install them with a single click. These are only cosmetic changes, and do not effect gameplay in any.
 
 Currently only the [Global version of Destiny Child](https://play.google.com/store/apps/details?id=com.linegames.dcglobal) is supported, but there are plans to add KR and JP support.
 
