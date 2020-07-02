@@ -10,7 +10,7 @@ Please report any issues or suggest features [here](https://github.com/PhasmaExM
 
 You can download the latest APK from the [releases page](https://github.com/PhasmaExMachina/dc-mod-manager/releases) by expanding the "Assets" ropdown under the latest release. The easiest way is to download it from your Android phone and install it that way. See [What is an APK and how do you install one?](https://www.androidpit.com/android-for-beginners-what-is-an-apk-file) or [ask Google](http://letmegooglethat.com/?q=how+to+install+apk) if you get stuck.
 
-**[Download latest APK v0.0.1](https://github.com/PhasmaExMachina/dc-mod-manager/releases/download/v0.0.1/dcmodmanager-v0.0.1.apk)** - Check [releases](https://github.com/PhasmaExMachina/dc-mod-manager/releases) too just in case this readme is outdated.
+**[Download latest APK v0.0.2](https://github.com/PhasmaExMachina/dc-mod-manager/releases/download/v0.0.2/dcmodmanager-v0.0.2.apk)** - Check [releases](https://github.com/PhasmaExMachina/dc-mod-manager/releases) too just in case this readme is outdated.
 
 Updating is as easy as installing the newest APK on top of the old one. Automatically checking for updates with easy one click upgrade is [planned](https://github.com/PhasmaExMachina/dc-mod-manager/issues/1).
 
