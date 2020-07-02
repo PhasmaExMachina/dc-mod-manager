@@ -9,14 +9,27 @@ export default ({hash, code, variant}, target) => {
     fileCache : true
   }
   RNFetchBlob.config(options).fetch('GET', `https://phasmaexmachina.github.io/destiny-child-mods-archive/characters/${code}_${variant}/${hash}/${code}_${variant}.pck`).then((res) => {
-    RNFS.getAllExternalFilesDirs().then(dirs => console.log(dirs))
-    RNFS.moveFile(res.path(), RNFS.ExternalStorageDirectoryPath + `/Android/data/com.linegames.dcglobal/files/asset/character/${target}.pck`)
-      .then(() => {
-        Toast.show(`Mod installed to ${target}`)
+    const installedTo = [],
+          attempts = [],
+          regions = {
+            Global: 'com.linegames.dcglobal',
+            KR: 'com.NextFloor.DestinyChild',
+            JP: 'com.stairs.destinychild'
+          }
+    Object.keys(regions).forEach(region => {
+      if(RNFS.exists(RNFS.ExternalStorageDirectoryPath + `/Android/data/${regions[region]}/files/asset/character/`))
+        attempts.push(RNFS.copyFile(res.path(), RNFS.ExternalStorageDirectoryPath + `/Android/data/${regions[region]}/files/asset/character/${target}.pck`)
+          .then(() => {
+            installedTo.push(region)
+          })
+          .catch(e => {
+            console.log(e)
+            Toast.show('Error installing mod:\n' + e.message,  Toast.LONG)
+          }))
       })
-      .catch(e => {
-        console.log(e)
-        Toast.show('Error installing mod:\n' + e.message,  Toast.LONG)
-      })
+    Promise.all(attempts).then(() => {
+      RNFS.unlink(res.path())
+      Toast.show(`Installed ${target} to ${installedTo.join(', ')}`)
+    })
   })
 }
