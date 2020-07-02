@@ -27,7 +27,7 @@ function Mods({mods, characters}) {
         to = (page + 1) * itemsPerPage
   let filtered = Object.keys(mods).reduce((acc, hash) => {
     const {code, variant} = mods[hash]
-    if(!filter || (characters[code] ? (characters[code].name || '') : '').toLowerCase().match(filter.toLowerCase())) {
+    if(!filter || ((characters[code] ? (characters[code].name || '') : '') + code + '_' + variant).toLowerCase().match(filter.toLowerCase())) {
       acc.push({...mods[hash], hash})
     }
     return acc
