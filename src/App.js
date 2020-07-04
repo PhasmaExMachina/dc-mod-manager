@@ -29,6 +29,7 @@ import {fetchMods} from './actions/mods'
 import {fetchCharacters} from './actions/characters'
 import MainView from './MainView'
 import ScrollTop from './ScrollTop';
+import DCTools from './DCTools'
 
 const theme = {
   ...DefaultTheme,
@@ -57,6 +58,7 @@ const store = createStore(combineReducers({
 let readExternalStorageRequested = false
 
 function App() {
+
   const [readExternalStorageGranted, setReadExternalStorageGranted] = useState(false),
         requestReadExternalStoragePermission = () => {
           request(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE).then((result) => {
