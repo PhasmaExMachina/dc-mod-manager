@@ -198,6 +198,7 @@ dependencies {
     implementation 'com.koushikdutta.ion:ion:2.2.1'
     implementation 'org.jsoup:jsoup:1.13.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation "com.android.support:support-core-utils:28.0.0"
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 

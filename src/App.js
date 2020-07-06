@@ -30,6 +30,7 @@ import {fetchCharacters} from './actions/characters'
 import MainView from './MainView'
 import ScrollTop from './ScrollTop';
 import DCTools from './DCTools'
+import RNFS from 'react-native-fs'
 
 const theme = {
   ...DefaultTheme,
@@ -112,6 +113,11 @@ function App() {
     // Update the document title using the browser API
     store.dispatch(fetchMods())
     store.dispatch(fetchCharacters())
+    DCTools.setTmpPath(RNFS.DocumentDirectoryPath + '/tmp')
+    // DCTools.swap(
+    //   RNFS.ExternalStorageDirectoryPath + `/Android/data/com.linegames.dcglobal/files/asset/character/c000_01.pck`,
+    //   RNFS.ExternalStorageDirectoryPath + `/Android/data/com.linegames.dcglobal/files/asset/character/c001_01.pck`
+    // )
   }, []);
   return readExternalStorageGranted
     ? (
