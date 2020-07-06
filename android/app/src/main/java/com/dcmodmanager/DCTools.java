@@ -20,12 +20,14 @@ import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.io.FileOutputStream;
 import com.arsylk.mammonsmite.DestinyChild.DCDefine;
+import com.arsylk.mammonsmite.DestinyChild.DCModel;
 import com.arsylk.mammonsmite.utils.Utils;
 import java.nio.channels.FileChannel;
 
 public class DCTools extends ReactContextBaseJavaModule {
   private static ReactApplicationContext reactContext;
   private static String TMP_PATH;
+  public static String APPS_PATH;
 
   DCTools(ReactApplicationContext context) {
     super(context);
@@ -52,6 +54,11 @@ public class DCTools extends ReactContextBaseJavaModule {
     if(!tmp.exists() || !tmp.isDirectory()) {
       tmp.mkdirs();
     }
+  }
+
+  @ReactMethod
+  public void setAppsPath(String appsPath) {
+    APPS_PATH = appsPath;
   }
 
   @ReactMethod
@@ -219,4 +226,16 @@ public class DCTools extends ReactContextBaseJavaModule {
     return DCDefine.UNKNOWN;
   }
 
+  //pck files to models
+  public static DCModel pckToModel(Pck pck) throws Exception {
+    //create new model
+    DCModel dcModel = new DCModel(pck);
+    pck.generateHeader();
+
+    return dcModel;
+  }
+
+  public static File getDCModelInfoPath() {
+    return new File(APPS_PATH + "/com.linegames.dcglobal/files/asset/character/model_info.json");
+  }
 }

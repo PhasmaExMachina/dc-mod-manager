@@ -160,5 +160,38 @@ public class Utils {
         file = rename;
     }
     return file;
-}
+  }
+
+  /*json start*/
+  @SuppressLint("NewApi")
+  public static JSONObject fileToJson(InputStream in) {
+      try {
+          BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+          StringBuilder content = new StringBuilder();
+          String line;
+          while((line = br.readLine()) != null)
+              content.append(line);
+          br.close();
+          return new JSONObject(content.toString());
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+      return null;
+  }
+
+  public static JSONObject fileToJson(File file) {
+      try {
+          BufferedReader br = new BufferedReader(new FileReader(file));
+          StringBuilder content = new StringBuilder();
+          String line;
+          while((line = br.readLine()) != null)
+              content.append(line);
+          br.close();
+          return new JSONObject(content.toString());
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+      return null;
+  }
+  /*json end*/
 }
