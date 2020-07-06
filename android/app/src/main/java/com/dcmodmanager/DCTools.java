@@ -21,8 +21,11 @@ import java.util.Arrays;
 import java.io.FileOutputStream;
 import com.arsylk.mammonsmite.DestinyChild.DCDefine;
 import com.arsylk.mammonsmite.DestinyChild.DCModel;
+import com.arsylk.mammonsmite.DestinyChild.DCModelInfo;
+import com.arsylk.mammonsmite.DestinyChild.DCSwapper;
 import com.arsylk.mammonsmite.utils.Utils;
 import java.nio.channels.FileChannel;
+import com.arsylk.mammonsmite.Live2D.L2DModel;
 
 public class DCTools extends ReactContextBaseJavaModule {
   private static ReactApplicationContext reactContext;
@@ -67,20 +70,34 @@ public class DCTools extends ReactContextBaseJavaModule {
     File sourceDest = new File(this.TMP_PATH + "/swap_source/");
     File targetFile = new File(targetPath);
     File targetDest = new File(this.TMP_PATH + "/swap_target/");
+    Pck sourcePck = null;
+    Pck targetPck = null;
     try {
-      DCTools.unpack(sourceFile, sourceDest, 1);
-      DCTools.unpack(targetFile, targetDest, 1);
+      sourcePck = DCTools.unpack(sourceFile, sourceDest, 1);
+      targetPck = DCTools.unpack(targetFile, targetDest, 1);
     }
     catch(Exception ex) {
       try {
-        DCTools.unpack(sourceFile, sourceDest, 0);
-        DCTools.unpack(targetFile, targetDest, 0);
+        sourcePck = DCTools.unpack(sourceFile, sourceDest, 0);
+        targetPck = DCTools.unpack(targetFile, targetDest, 0);
       }
       catch(Exception e) {
         e.printStackTrace();
-        show("Error swapping files " + e.getMessage(), 10);
+        show("Error extracting files for swapping " + e.getMessage(), 10);
       }
     }
+    try {
+      L2DModel sourceModel = DCTools.pckToModel(sourcePck).asL2DModel();
+      L2DModel targetModel = DCTools.pckToModel(targetPck).asL2DModel();
+      DCSwapper swapper = new DCSwapper(sourceModel, targetModel);
+      swapper.matchFiles();
+      boolean noErrors = swapper.swapModels(new File(this.TMP_PATH + "/swap_result"));
+    }
+    catch(Exception e) {
+      show("Error swapping files " + e.getMessage(), 10);
+    }
+    Log.d("DCTools", "OK!");
+    // DCModel dcModel = DCTools.pckToModel(sourcePck);
   }
 
   @Override
