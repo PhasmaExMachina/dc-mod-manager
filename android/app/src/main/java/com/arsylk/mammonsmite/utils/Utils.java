@@ -17,12 +17,13 @@ import android.preference.PreferenceManager;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import android.view.View;
+import java.io.InputStream;
 import android.view.inputmethod.InputMethodManager;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
+// import android.os.FileUtils;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -152,6 +153,18 @@ public class Utils {
         hexChars[i * 2 + 1] = hexArray[v & 0x0F];
     }
     return new String(hexChars);
+  }
+
+  public static byte[] hexToBytes(String hex) {
+    int len = hex.length();
+    if(len % 2 == 0) {
+        byte[] data = new byte[len/2];
+        for(int i = 0; i < len; i+=2) {
+            data[i/2] = ((byte)((Character.digit(hex.charAt(i), 16) << 4) + Character.digit(hex.charAt(i+1), 16)));
+        }
+        return data;
+    }
+    return null;
   }
 
   public static File rename(File file, String newName) {
