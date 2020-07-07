@@ -1,5 +1,6 @@
 export const CONFIG_SET = 'CONFIG_SET'
 import {setLoading} from './loading'
+import {setView} from './view'
 import RNFS from 'react-native-fs'
 import {getSettingsPath, getDestinyChildPath} from '../paths'
 
@@ -30,7 +31,9 @@ export const loadConfig = () =>
                 config.installedRegions = installedRegions
                 if(installedRegions.indexOf(config.region) < 0) config.region = installedRegions[0]
                 config.defaultView = config.defaultView || 'mods'
+                dispatch(setView(config.defaultView))
                 config.defaultModsSortOrder = config.defaultModsSortOrder || 'recently added'
+                config.defaultCharacterSortOrder = config.defaultCharacterSortOrder || 'code'
                 dispatch(setConfig(config))
               })
               .catch((err) => {

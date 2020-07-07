@@ -13,6 +13,7 @@ const Settings = ({config, setConfig}) => {
         <Card.Content>
           <RadioButton.Group onValueChange={value => setConfig({defaultView: value})} value={config.defaultView}>
             <RadioButton.Item label="Mods" value="mods" />
+            <RadioButton.Item label="Characters" value="characters" />
           </RadioButton.Group>
         </Card.Content>
       </Card>

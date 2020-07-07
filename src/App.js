@@ -124,6 +124,14 @@ function App() {
             anchor={<Appbar.Action icon="dots-vertical" onPress={() => setMenuOpen(true)} color="white" />}>
             <Menu.Item onPress={() => {
               setMenuOpen(false)
+              store.dispatch(pushView('characters'))
+            }} title="Characters" />
+            <Menu.Item onPress={() => {
+              setMenuOpen(false)
+              store.dispatch(pushView('mods'))
+            }} title="Mods" />
+            <Menu.Item onPress={() => {
+              setMenuOpen(false)
               store.dispatch(pushView('settings'))
             }} title="Settings" />
           </Menu>

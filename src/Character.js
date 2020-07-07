@@ -11,8 +11,8 @@ function Character({character, pushView, code}) {
     ? (
       <View style={{padding: 20}}>
         <View style={{paddingBottom: 20, flex: 1, flexDirection: 'row'}}>
-          <TouchableHighlight onPress={() => pushView('mods')}>
-            <Subheading style={{color: colors.primary}}>Mods</Subheading>
+          <TouchableHighlight onPress={() => pushView('characters')}>
+            <Subheading style={{color: colors.primary}}>Characters</Subheading>
           </TouchableHighlight>
           <Subheading style={{marginLeft: 10, marginRight: 10}}>&gt;</Subheading>
           <Subheading>{character.name || character.code}</Subheading>

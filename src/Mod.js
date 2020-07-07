@@ -14,8 +14,8 @@ function Mod({mod: {code, variant}, hash, character, pushView, install}) {
   return (
     <>
       <View style={{padding: 20, flex: 1, flexDirection: 'row'}}>
-        <TouchableHighlight onPress={() => pushView('mods')}>
-          <Subheading style={{color: colors.primary}}>Mods</Subheading>
+        <TouchableHighlight onPress={() => pushView('characters')}>
+          <Subheading style={{color: colors.primary}}>Characters</Subheading>
         </TouchableHighlight>
         <Subheading style={{marginLeft: 10, marginRight: 10}}>&gt;</Subheading>
         <TouchableHighlight onPress={() => pushView('character', {code})}>

@@ -12,12 +12,10 @@ function ModPreview({mod: {code, variant}, hash, pushView, character}) {
         <Card>
           <Card.Title title={`${character.variants[variant] ? character.variants[variant].title  || '' : ''} ${character.name || ''} (${code}_${variant})`} />
           <Card.Content style={{alignItems: 'center'}}>
-            <Surface>
-              <ScaledImage
-                source={{uri: `https://phasmaexmachina.github.io/destiny-child-mods-archive/characters/${code}_${variant}/${hash}/static.png`}}
-                height={300}
-                />
-              </Surface>
+            <ScaledImage
+              source={{uri: `https://phasmaexmachina.github.io/destiny-child-mods-archive/characters/${code}_${variant}/${hash}/static.png`}}
+              height={300}
+              />
           </Card.Content>
         </Card>
       </TouchableHighlight>

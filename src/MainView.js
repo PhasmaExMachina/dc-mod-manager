@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import {connect, useStore} from 'react-redux'
 import {Paragraph, Dialog, Portal} from 'react-native-paper'
 import Character from './Character'
+import Characters from './Characters'
 import Mods from './Mods'
 import Mod from './Mod'
 import Settings from './Settings'
@@ -28,6 +29,7 @@ function MainView({view, popHistory, pushView, loading}) {
   switch(view.name) {
     case 'mod': CurrentView = Mod; break;
     case 'character': CurrentView = Character; break;
+    case 'characters': CurrentView = Characters; break;
     case 'settings': CurrentView = Settings; break;
     default: CurrentView = Mods;
   }
