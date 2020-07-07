@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {TouchableHighlight} from 'react-native'
 import ScaledImage from './ScaledImage'
 import {pushView} from './actions/view'
-import {Card, Surface} from 'react-native-paper'
+import {Card} from 'react-native-paper'
 
 function ModPreview({mod: {code, variant}, hash, pushView, character}) {
   return (code && character)

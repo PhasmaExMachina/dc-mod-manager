@@ -5,6 +5,7 @@ import Character from './Character'
 import Characters from './Characters'
 import Mods from './Mods'
 import Mod from './Mod'
+import Variant from './Variant'
 import Settings from './Settings'
 import {popHistory} from './actions/history'
 import {pushView} from './actions/view'
@@ -31,6 +32,7 @@ function MainView({view, popHistory, pushView, loading}) {
     case 'character': CurrentView = Character; break;
     case 'characters': CurrentView = Characters; break;
     case 'settings': CurrentView = Settings; break;
+    case 'variant': CurrentView = Variant; break;
     default: CurrentView = Mods;
   }
   return (
