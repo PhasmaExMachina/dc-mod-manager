@@ -4,6 +4,7 @@ import RNFetchBlob from 'rn-fetch-blob'
 import Toast from 'react-native-simple-toast'
 import swap from '../swap'
 import {setLoading} from './loading'
+import {getCharactersPath} from '../paths'
 
 export const fetchMods = () =>
   (dispatch) => fetch('https://phasmaexmachina.github.io/destiny-child-mods-archive/data/mods.json')
@@ -22,12 +23,6 @@ const _install =  ({hash, code, variant}, target, {characters}, dispatch, comple
   return RNFetchBlob.config(options).fetch('GET', `https://phasmaexmachina.github.io/destiny-child-mods-archive/characters/${code}_${variant}/${hash}/${code}_${variant}.pck`).then((res) => {
     const installedTo = [],
           attempts = [],
-          regions = {
-            global: 'com.linegames.dcglobal',
-            kr: 'com.NextFloor.DestinyChild',
-            jp: 'com.stairs.destinychild'
-          },
-          region = 'global',
           complete = () => {
             RNFS.unlink(res.path())
           }
@@ -39,14 +34,14 @@ const _install =  ({hash, code, variant}, target, {characters}, dispatch, comple
             dispatch(setLoading(true, {title: 'Installing mod', message: `Swapping ${source} into ${target} ...`}))
             return swap(
                 res.path(),
-                RNFS.ExternalStorageDirectoryPath + `/Android/data/${regions[region]}/files/asset/character/${target}.pck`,
+                getCharactersPath() + `${target}.pck`,
                 source,
                 target
               ).then(complete)
             })
       }
       else {
-        return RNFS.copyFile(res.path(), RNFS.ExternalStorageDirectoryPath + `/Android/data/${regions[region]}/files/asset/character/${target}.pck`)
+        return RNFS.copyFile(res.path(), getCharactersPath() + `${target}.pck`)
           .then(complete)
           .catch(e => {
             console.log(e)

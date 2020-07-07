@@ -116,7 +116,7 @@ function App() {
     <Provider store={store}>
       <PaperProvider theme={theme}>
         <Appbar.Header dark={true}>
-          <Appbar.Content title="DC Mod Manager" onPress={() => store.dispatch(pushView('mods')) }/>
+          <Appbar.Content title="DC Mod Manager" onPress={() => store.dispatch(pushView(store.getState().config.defaultView)) }/>
           <Menu
             visible={menuOpen}
             onDismiss={() => setMenuOpen(false)}
