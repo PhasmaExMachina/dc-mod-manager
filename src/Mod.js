@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {View, TouchableHighlight} from 'react-native'
-import {Text, Button, useTheme, Dialog, Portal, Paragraph, TextInput} from 'react-native-paper'
+import {Subheading, Button, useTheme, Dialog, Portal, Paragraph, TextInput} from 'react-native-paper'
 import ModLive2DPreview from './ModLive2DPreview'
 import {pushView} from './actions/view'
 import {install} from './actions/mods'
@@ -15,14 +15,14 @@ function Mod({mod: {code, variant}, hash, character, pushView, install}) {
     <>
       <View style={{padding: 20, flex: 1, flexDirection: 'row'}}>
         <TouchableHighlight onPress={() => pushView('mods')}>
-          <Text style={{color: colors.primary}}>Mods</Text>
+          <Subheading style={{color: colors.primary}}>Mods</Subheading>
         </TouchableHighlight>
-        <Text style={{marginLeft: 10, marginRight: 10}}>&gt;</Text>
+        <Subheading style={{marginLeft: 10, marginRight: 10}}>&gt;</Subheading>
         <TouchableHighlight onPress={() => pushView('character', {code})}>
-          <Text style={{color: colors.primary}}>{character.name || character.code}</Text>
+          <Subheading style={{color: colors.primary}}>{character.name || character.code}</Subheading>
         </TouchableHighlight>
-        <Text style={{marginLeft: 10, marginRight: 10}}>&gt;</Text>
-        <Text>{code}_{variant}</Text>
+        <Subheading style={{marginLeft: 10, marginRight: 10}}>&gt;</Subheading>
+        <Subheading>{code}_{variant}</Subheading>
       </View>
       <ModLive2DPreview hash={hash} code={code} variant={variant} />
       <View style={{padding: 20}}>

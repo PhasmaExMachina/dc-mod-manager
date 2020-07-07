@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {View, TouchableHighlight} from 'react-native'
-import {Text, useTheme} from 'react-native-paper'
+import {Subheading, useTheme} from 'react-native-paper'
 import {pushView} from './actions/view'
 import ModPreview from './ModPreview'
 
@@ -12,10 +12,10 @@ function Character({character, pushView, code}) {
       <View style={{padding: 20}}>
         <View style={{paddingBottom: 20, flex: 1, flexDirection: 'row'}}>
           <TouchableHighlight onPress={() => pushView('mods')}>
-            <Text style={{color: colors.primary}}>Mods</Text>
+            <Subheading style={{color: colors.primary}}>Mods</Subheading>
           </TouchableHighlight>
-          <Text style={{marginLeft: 10, marginRight: 10}}>&gt;</Text>
-          <Text>{character.name || character.code}</Text>
+          <Subheading style={{marginLeft: 10, marginRight: 10}}>&gt;</Subheading>
+          <Subheading>{character.name || character.code}</Subheading>
         </View>
         {Object.keys(character.variants).sort().map(variant => (
           <>
