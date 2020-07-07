@@ -47,8 +47,8 @@ function Mods({mods, characters}) {
   }
   if(sort == 'code') {
     filtered = filtered.sort((a, b) => {
-      a = mods[a.hash].code
-      b = mods[b.hash].code
+      a = mods[a.hash].code + '_' + mods[a.hash].variant
+      b = mods[b.hash].code + '_' + mods[b.hash].variant
       return a < b ? -1 : b < a ? 1 : 0
     })
   }
