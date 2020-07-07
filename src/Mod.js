@@ -1,16 +1,29 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
-import {View, TouchableHighlight} from 'react-native'
-import {Subheading, Button, useTheme, Dialog, Portal, Paragraph, TextInput} from 'react-native-paper'
+import {View, TouchableHighlight, TouchableOpacity, ScrollView} from 'react-native'
+import {Text, Subheading, Button, useTheme, Dialog, Portal, Paragraph, TextInput, Menu} from 'react-native-paper'
 import ModLive2DPreview from './ModLive2DPreview'
 import {pushView} from './actions/view'
 import {install} from './actions/mods'
+import Autocomplete from 'react-native-autocomplete-input'
 
-
-function Mod({mod: {code, variant}, hash, character, pushView, install}) {
+function Mod({mod: {code, variant}, hash, character, pushView, install, characters}) {
   const {colors} = useTheme(),
         [installToOpen, setInstallToOpen] = useState(false),
-        [swapCode, setSwapCode] = useState()
+        [swapCode, setSwapCode] = useState(),
+        [autocompleteVisible, setAutocompleteVisible] = useState(false),
+        [swapName, setSwapName] = useState(''),
+        characterNames = swapName.length > 2 && installToOpen && autocompleteVisible
+          ? Object.keys(characters)
+            .reduce((acc, code) => {
+              acc = acc.concat(Object.keys(characters[code].variants).map(variant =>
+                (characters[code].variants[variant].title || '') + ' ' + (characters[code].name || '?') + ' (' + code + '_' + variant + ')'
+              ))
+              return acc
+            }
+            , [])
+            .filter(name => name.toLowerCase().indexOf(swapName.toLowerCase()) > -1).slice(0, 10)
+          : []
   return (
     <>
       <View style={{padding: 20, flex: 1, flexDirection: 'row'}}>
@@ -38,17 +51,46 @@ function Mod({mod: {code, variant}, hash, character, pushView, install}) {
         </Button>
       </View>
       <Portal>
-        <Dialog visible={installToOpen} onDismiss={() => setInstallToOpen(false)}>
+        <Dialog visible={installToOpen} onDismiss={() => {
+          setInstallToOpen(false)
+          setAutocompleteVisible(false)
+        }}>
           <Dialog.Title>Install to Another Character</Dialog.Title>
           <Dialog.Content>
-            <Paragraph>This will install {code}_{variant}.pck to another character. Please select the character and variant you want to replace.</Paragraph>
-            <TextInput
-              label="Character and variant code"
-              onChangeText={setSwapCode} />
+            <Paragraph style={{marginBottom: 20}}>This will install {code}_{variant}.pck to another character. Please select the character and variant you want to replace.</Paragraph>
+            {swapCode
+              ? <Button onPress={() => {
+                setSwapCode('')
+                setSwapName('')
+              }} mode="text">{swapName}</Button>
+              : <>
+                <TextInput
+                  label="Character and variant code"
+                  onChangeText={setSwapName}
+                  value={swapName}
+                  onFocus={() => setAutocompleteVisible(true)} />
+                <ScrollView>
+                  {characterNames.map(name =>
+                    <Button mode="outlined" key={name} style={{marginTop: 10}}
+                      onPress={() => {
+                        setSwapName(name)
+                        setSwapCode(name.match(/[a-z][a-z]?\d\d\d_\d\d/)[0])
+                      }}
+                    >
+                      {name}
+                    </Button>
+                  )}
+                </ScrollView>
+              </>
+            }
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => setInstallToOpen(false)}>Cancel</Button>
             <Button onPress={() => {
+              setInstallToOpen(false)
+              setAutocompleteVisible(false)
+            }}>Cancel</Button>
+            <Button disabled={!swapCode}
+              onPress={() => {
               install({hash, code, variant}, swapCode)
               setInstallToOpen(false)
             }}>Install</Button>
@@ -63,7 +105,8 @@ export default connect(
   ({characters, mods, view: {data: {hash}}}) => ({
     mod: mods[hash],
     character: mods[hash] && characters[mods[hash].code],
-    hash
+    hash,
+    characters
   }),
   {pushView, install}
 )(Mod)

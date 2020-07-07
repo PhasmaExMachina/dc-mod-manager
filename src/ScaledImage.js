@@ -14,7 +14,6 @@ function ScaledImage(props) {
 	}
   useEffect(() => {
     if(props.source.uri) {
-      console.log(props.source)
       Image.getSize(props.source.uri, (width, height) => setImageSize(width, height))
     } else {
       let {width, height} = resolveAssetSource(props.source)
