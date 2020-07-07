@@ -23,11 +23,11 @@ const _install =  ({hash, code, variant}, target, {characters}, dispatch, comple
     const installedTo = [],
           attempts = [],
           regions = {
-            Global: 'com.linegames.dcglobal',
-            KR: 'com.NextFloor.DestinyChild',
-            JP: 'com.stairs.destinychild'
+            global: 'com.linegames.dcglobal',
+            kr: 'com.NextFloor.DestinyChild',
+            jp: 'com.stairs.destinychild'
           },
-          region = 'Global',
+          region = 'global',
           complete = () => {
             RNFS.unlink(res.path())
           }

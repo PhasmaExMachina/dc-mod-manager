@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react'
 import {connect, useStore} from 'react-redux'
 import {Paragraph, Dialog, Portal} from 'react-native-paper'
+import Character from './Character'
 import Mods from './Mods'
 import Mod from './Mod'
-import Character from './Character'
+import Settings from './Settings'
 import {popHistory} from './actions/history'
 import {pushView} from './actions/view'
 import {BackHandler, Alert} from 'react-native'
@@ -27,6 +28,7 @@ function MainView({view, popHistory, pushView, loading}) {
   switch(view.name) {
     case 'mod': CurrentView = Mod; break;
     case 'character': CurrentView = Character; break;
+    case 'settings': CurrentView = Settings; break;
     default: CurrentView = Mods;
   }
   return (

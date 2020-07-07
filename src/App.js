@@ -19,15 +19,17 @@ import {
 
 import {Provider} from 'react-redux'
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import {DefaultTheme, Provider as PaperProvider, Appbar} from 'react-native-paper';
+import {DefaultTheme, Provider as PaperProvider, Appbar, Menu} from 'react-native-paper';
 import store from './store'
 import {fetchMods} from './actions/mods'
 import {fetchModelInfo} from './actions/model-info'
 import {fetchCharacters} from './actions/characters'
+import {loadConfig} from './actions/config'
 import MainView from './MainView'
 import ScrollTop from './ScrollTop';
 import DCTools from './DCTools'
 import RNFS from 'react-native-fs'
+import { pushView } from './actions/view';
 
 const theme = {
   ...DefaultTheme,
@@ -51,6 +53,7 @@ let readExternalStorageRequested = false
 function App() {
 
   const [readExternalStorageGranted, setReadExternalStorageGranted] = useState(false),
+        [menuOpen, setMenuOpen] = useState(false),
         requestReadExternalStoragePermission = () => {
           request(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE).then((result) => {
             checkReadExternalStorageGranted()
@@ -101,6 +104,7 @@ function App() {
   useEffect(() => {
     checkReadExternalStorageGranted()
     // Update the document title using the browser API
+    store.dispatch(loadConfig())
     store.dispatch(fetchMods())
     store.dispatch(fetchCharacters())
     store.dispatch(fetchModelInfo())
@@ -112,8 +116,17 @@ function App() {
     <Provider store={store}>
       <PaperProvider theme={theme}>
         <Appbar.Header dark={true}>
-          <Appbar.Content title="DC Mod Manager" />
-          {/* <Appbar.Action icon="magnify" onPress={() => {}} /> */}
+          <Appbar.Content title="DC Mod Manager" onPress={() => store.dispatch(pushView('mods')) }/>
+          <Menu
+            visible={menuOpen}
+            onDismiss={() => setMenuOpen(false)}
+            style={{marginTop: 56}}
+            anchor={<Appbar.Action icon="dots-vertical" onPress={() => setMenuOpen(true)} color="white" />}>
+            <Menu.Item onPress={() => {
+              setMenuOpen(false)
+              store.dispatch(pushView('settings'))
+            }} title="Settings" />
+          </Menu>
           {/* <Appbar.Action icon={MORE_ICON} onPress={() => {}} /> */}
         </Appbar.Header>
         <View style={{flex: 1,backgroundColor: '#111'}}>
