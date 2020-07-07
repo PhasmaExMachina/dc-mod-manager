@@ -29,7 +29,7 @@ const Settings = ({config, setConfig}) => {
         </Card.Content>
       </Card>
       <Card style={{marginBottom: 20}}>
-        <Card.Title title="Default Characters View Default Sort Order" />
+        <Card.Title title="Default Characters Default Sort Order" />
         <Card.Content>
           <RadioButton.Group onValueChange={value => setConfig({defaultCharacterSortOrder: value})} value={config.defaultCharacterSortOrder}>
             <RadioButton.Item label="Sort by code" value="code" />
@@ -49,17 +49,6 @@ const Settings = ({config, setConfig}) => {
             <RadioButton.Item label="Show monsters" value="monsters" />
             <RadioButton.Item label="Show spa monsters" value="spa monsters" />
             <RadioButton.Item label="Show other" value="other" />
-          </RadioButton.Group>
-        </Card.Content>
-      </Card>
-      <Card style={{marginBottom: 20}}>
-        <Card.Title title="Default Characters View Sort Order" />
-        <Card.Content>
-          <RadioButton.Group onValueChange={value => setConfig({defaultModsSortOrder: value})} value={config.defaultModsSortOrder}>
-            <RadioButton.Item label="Sort by code" value="code" />
-            <RadioButton.Item label="Sort by code descending" value="code-desc" />
-            <RadioButton.Item label="Sort by name" value="name" />
-            <RadioButton.Item label="Sort by name descending" value="name-desc" />
           </RadioButton.Group>
         </Card.Content>
       </Card>
