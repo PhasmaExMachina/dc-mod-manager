@@ -3,22 +3,22 @@ import {connect} from 'react-redux'
 import {View, TouchableHighlight} from 'react-native'
 import {Text, Button, useTheme, Dialog, Portal, Paragraph, TextInput} from 'react-native-paper'
 import ModLive2DPreview from './ModLive2DPreview'
-import {setView} from './actions/view'
+import {pushView} from './actions/view'
 import {install} from './actions/mods'
 
 
-function Mod({mod: {code, variant}, hash, character, setView, install}) {
+function Mod({mod: {code, variant}, hash, character, pushView, install}) {
   const {colors} = useTheme(),
         [installToOpen, setInstallToOpen] = useState(false),
         [swapCode, setSwapCode] = useState()
   return (
     <>
       <View style={{padding: 20, flex: 1, flexDirection: 'row'}}>
-        <TouchableHighlight onPress={() => setView('mods')}>
+        <TouchableHighlight onPress={() => pushView('mods')}>
           <Text style={{color: colors.primary}}>Mods</Text>
         </TouchableHighlight>
         <Text style={{marginLeft: 10, marginRight: 10}}>&gt;</Text>
-        <TouchableHighlight onPress={() => setView('character', {code})}>
+        <TouchableHighlight onPress={() => pushView('character', {code})}>
           <Text style={{color: colors.primary}}>{character.name || character.code}</Text>
         </TouchableHighlight>
         <Text style={{marginLeft: 10, marginRight: 10}}>&gt;</Text>
@@ -65,5 +65,5 @@ export default connect(
     character: mods[hash] && characters[mods[hash].code],
     hash
   }),
-  {setView, install}
+  {pushView, install}
 )(Mod)
