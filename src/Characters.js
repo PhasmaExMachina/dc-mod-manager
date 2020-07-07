@@ -15,6 +15,8 @@ function Mods({mods, characters, config}) {
   const [filter, setFilter] = useState(''),
         [sortMenuVisible, setSortMenuVisible] = useState(false),
         [sort, setSort] = useState(config.defaultCharacterSortOrder),
+        [show, setShow] = useState(config.defaultCharacterShow),
+        [showMenuVisible, setShowMenuVisible] = useState(false),
         [page, setPageVal] = useState(0),
         setPage = p => {
           setPageVal(p)
@@ -22,7 +24,13 @@ function Mods({mods, characters, config}) {
         }
         setSortAndClose = val => {
           setSort(val)
+          setPage(0)
           setSortMenuVisible(false)
+        },
+        setShowAndClose = val => {
+          setPage(0)
+          setShow(val)
+          setShowMenuVisible(false)
         },
         itemsPerPage = 10,
         from = page * itemsPerPage,
@@ -39,6 +47,21 @@ function Mods({mods, characters, config}) {
   // if(sort == 'oldest') {
   //   filtered = filtered.sort((a, b) => a.created < b.created ? -1 : b.created < a.created ? 1 : 0)
   // }
+  if(show === 'childs') {
+    filtered = filtered.filter(({code}) => code.match(/^c\d\d\d/))
+  }
+  if(show === 'spa childs') {
+    filtered = filtered.filter(({code}) => code.match(/^sc\d\d\d/))
+  }
+  if(show === 'monsters') {
+    filtered = filtered.filter(({code}) => code.match(/^m\d\d\d/))
+  }
+  if(show === 'spa monsters') {
+    filtered = filtered.filter(({code}) => code.match(/^sm\d\d\d/))
+  }
+  if(show === 'other') {
+    filtered = filtered.filter(({code}) => code.match(/^v\d\d\d/))
+  }
   if(sort == 'name') {
     filtered = filtered.sort((a, b) => {
       a = a.name
@@ -53,7 +76,7 @@ function Mods({mods, characters, config}) {
       return a < b ? -1 : b < a ? 1 : 0
     })
   }
-  if(sort == 'code-desc') filtered.reverse()
+  if(sort.match('-desc')) filtered.reverse()
   return (
     <View style={{padding: 20}}>
       <Headline style={{paddingBottom: 20}}>Characters</Headline>
@@ -62,16 +85,31 @@ function Mods({mods, characters, config}) {
       </View>
       <View style={{marginBottom: 20}}>
         <Menu
+          visible={showMenuVisible}
+          style={{marginTop: 46}}
+          onDismiss={() => setShowMenuVisible(false)}
+          anchor={<Button title={'Show ' + show} onPress={() => setShowMenuVisible(true)} />}>
+          <Menu.Item onPress={() => setShowAndClose('all')} title="Show all" />
+          <Menu.Item onPress={() => setShowAndClose('childs')} title="Show childs" />
+          <Menu.Item onPress={() => setShowAndClose('spa childs')} title="Show spa childs" />
+          <Menu.Item onPress={() => setShowAndClose('monsters')} title="Show monsters" />
+          <Menu.Item onPress={() => setShowAndClose('spa monsters')} title="Show spa monsters" />
+          <Menu.Item onPress={() => setShowAndClose('other')} title="Show other" />
+        </Menu>
+      </View>
+      <View style={{marginBottom: 20}}>
+        <Menu
           visible={sortMenuVisible}
           style={{marginTop: 46}}
           onDismiss={() => setSortMenuVisible(false)}
           anchor={<Button title={'Sorted by ' + sort} onPress={() => setSortMenuVisible(true)} />}>
           <Menu.Item onPress={() => setSortAndClose('code')} title="Sort by code" />
+          <Menu.Item onPress={() => setSortAndClose('code-desc')} title="Sort by code descending" />
           <Menu.Item onPress={() => setSortAndClose('name')} title="Sort by name" />
-          <Menu.Item onPress={() => setSortAndClose('recently added')} title="Sort by recently added" />
-          <Menu.Item onPress={() => setSortAndClose('oldest')} title="Sort by oldest" />
+          <Menu.Item onPress={() => setSortAndClose('name-desc')} title="Sort by name descending" />
         </Menu>
       </View>
+
       <DataTable.Pagination
         page={page}
         numberOfPages={Math.floor(filtered.length / itemsPerPage)}

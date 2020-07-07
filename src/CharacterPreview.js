@@ -10,7 +10,7 @@ const CharacterPreview = ({character, pushView}) => {
   , false)
   return (
     <Card style={{marginBottom: 20}} onPress={() => pushView('character', {code: character.code})}>
-      <Card.Title title={`${character.name} (${character.code})`}/>
+      <Card.Title title={`${character.name || '?'} (${character.code})`}/>
       <Card.Content style={{alignItems: 'center'}}>
           {character.variants[variant] &&
             <ScaledImage

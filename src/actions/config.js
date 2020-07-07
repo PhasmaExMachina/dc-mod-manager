@@ -34,6 +34,7 @@ export const loadConfig = () =>
                 dispatch(setView(config.defaultView))
                 config.defaultModsSortOrder = config.defaultModsSortOrder || 'recently added'
                 config.defaultCharacterSortOrder = config.defaultCharacterSortOrder || 'code'
+                config.defaultCharacterShow = config.defaultCharacterShow || 'all'
                 dispatch(setConfig(config))
               })
               .catch((err) => {

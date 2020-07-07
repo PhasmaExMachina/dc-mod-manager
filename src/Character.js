@@ -21,7 +21,7 @@ function Character({character, pushView, code}) {
           <>
             <Headline style={{marginBottom: 20, marginTop: 40}}>
               {/* {character.variants[variant].title} {character.name} ({character.code}_{variant}) */}
-              {character.variants[variant].title} {character.name} - {
+              {character.variants[variant].title} {character.name || '?'} - {
                 code.match(/^s/)
                   ? 'Spa'
                   :  variant === '00'

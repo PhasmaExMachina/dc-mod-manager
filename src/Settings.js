@@ -18,13 +18,48 @@ const Settings = ({config, setConfig}) => {
         </Card.Content>
       </Card>
       <Card style={{marginBottom: 20}}>
-        <Card.Title title="Default Mods View Sort Order" />
+        <Card.Title title="Default Mods View Default Sort Order" />
         <Card.Content>
           <RadioButton.Group onValueChange={value => setConfig({defaultModsSortOrder: value})} value={config.defaultModsSortOrder}>
             <RadioButton.Item label="Sort by code" value="code" />
             <RadioButton.Item label="Sort by name" value="name" />
             <RadioButton.Item label="Sort by recently added" value="recently added" />
             <RadioButton.Item label="Sort by oldest" value="oldest" />
+          </RadioButton.Group>
+        </Card.Content>
+      </Card>
+      <Card style={{marginBottom: 20}}>
+        <Card.Title title="Default Characters View Default Sort Order" />
+        <Card.Content>
+          <RadioButton.Group onValueChange={value => setConfig({defaultCharacterSortOrder: value})} value={config.defaultCharacterSortOrder}>
+            <RadioButton.Item label="Sort by code" value="code" />
+            <RadioButton.Item label="Sort by code descending" value="code-desc" />
+            <RadioButton.Item label="Sort by name" value="name" />
+            <RadioButton.Item label="Sort by name descending" value="name-desc" />
+          </RadioButton.Group>
+        </Card.Content>
+      </Card>
+      <Card style={{marginBottom: 20}}>
+        <Card.Title title="Default Characters View Default Show" />
+        <Card.Content>
+          <RadioButton.Group onValueChange={value => setConfig({defaultCharacterShow: value})} value={config.defaultCharacterShow}>
+            <RadioButton.Item label="Show all" value="all" />
+            <RadioButton.Item label="Show childs" value="childs" />
+            <RadioButton.Item label="Show spa childs" value="spa childs" />
+            <RadioButton.Item label="Show monsters" value="monsters" />
+            <RadioButton.Item label="Show spa monsters" value="spa monsters" />
+            <RadioButton.Item label="Show other" value="other" />
+          </RadioButton.Group>
+        </Card.Content>
+      </Card>
+      <Card style={{marginBottom: 20}}>
+        <Card.Title title="Default Characters View Sort Order" />
+        <Card.Content>
+          <RadioButton.Group onValueChange={value => setConfig({defaultModsSortOrder: value})} value={config.defaultModsSortOrder}>
+            <RadioButton.Item label="Sort by code" value="code" />
+            <RadioButton.Item label="Sort by code descending" value="code-desc" />
+            <RadioButton.Item label="Sort by name" value="name" />
+            <RadioButton.Item label="Sort by name descending" value="name-desc" />
           </RadioButton.Group>
         </Card.Content>
       </Card>
