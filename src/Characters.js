@@ -11,6 +11,7 @@ import {scrollToTop} from './ScrollTop'
 import CharacterPreview from './CharacterPreview'
 
 function Mods({mods, characters, config}) {
+  if(!config.defaultCharacterSortOrder) return null
   const [filter, setFilter] = useState(''),
         [sortMenuVisible, setSortMenuVisible] = useState(false),
         [sort, setSort] = useState(config.defaultCharacterSortOrder),
@@ -45,13 +46,14 @@ function Mods({mods, characters, config}) {
       return a < b ? -1 : b < a ? 1 : 0
     })
   }
-  if(sort == 'code') {
+  if(sort == 'code' || sort == 'code-desc') {
     filtered = filtered.sort((a, b) => {
       a = a.code
       b = b.code
       return a < b ? -1 : b < a ? 1 : 0
     })
   }
+  if(sort == 'code-desc') filtered.reverse()
   return (
     <View style={{padding: 20}}>
       <Headline style={{paddingBottom: 20}}>Characters</Headline>

@@ -10,6 +10,7 @@ import ModPreview from './ModPreview'
 import {scrollToTop} from './ScrollTop'
 
 function Mods({mods, characters, config}) {
+  if(!config.defaultModsSortOrder) return null
   const [filter, setFilter] = useState(''),
         [sortMenuVisible, setSortMenuVisible] = useState(false),
         [sort, setSort] = useState(config.defaultModsSortOrder),
