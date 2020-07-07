@@ -16,6 +16,12 @@ Updating is as easy as installing the newest APK on top of the old one. Automati
 
 ![](https://raw.githubusercontent.com/PhasmaExMachina/dc-mod-manager/master/screenshots/screenshot-1.jpg)
 
+![](https://raw.githubusercontent.com/PhasmaExMachina/dc-mod-manager/master/screenshots/screenshot-2.jpg)
+
+![](https://raw.githubusercontent.com/PhasmaExMachina/dc-mod-manager/master/screenshots/screenshot-3.jpg)
+
+![](https://raw.githubusercontent.com/PhasmaExMachina/dc-mod-manager/master/screenshots/screenshot-4.jpg)
+
 ## Credits
 
 This app is powered by the [Destiny Child Mods Archive](https://github.com/PhasmaExMachina/destiny-child-mods-archive) project. The mods in themselves are created by many different people. The goal was always to credit each modder on [the site](https://phasmaexmachina.github.io/destiny-child-mods-archive/) and in this app, but that's a _lot_ of manual work. Check out [this issue](https://github.com/PhasmaExMachina/destiny-child-mods-archive/issues/2) if you want to help out with the initiative.
