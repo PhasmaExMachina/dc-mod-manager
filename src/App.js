@@ -8,7 +8,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {
-  SafeAreaView,
+  TouchableOpacity,
   StyleSheet,
   ScrollView,
   View,
@@ -30,6 +30,7 @@ import ScrollTop from './ScrollTop';
 import DCTools from './DCTools'
 import RNFS from 'react-native-fs'
 import { pushView } from './actions/view';
+import ScaledImage from './ScaledImage'
 
 const theme = {
   ...DefaultTheme,
@@ -116,6 +117,9 @@ function App() {
     <Provider store={store}>
       <PaperProvider theme={theme}>
         <Appbar.Header dark={true}>
+          <TouchableOpacity onPress={() => store.dispatch(pushView(store.getState().config.defaultView)) }>
+            <ScaledImage source={require('./icon.png')} width={36} style={{marginLeft: 15}} />
+          </TouchableOpacity>
           <Appbar.Content title="DC Mod Manager" onPress={() => store.dispatch(pushView(store.getState().config.defaultView)) }/>
           <Menu
             visible={menuOpen}
