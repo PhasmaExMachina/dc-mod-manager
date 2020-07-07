@@ -1,6 +1,7 @@
 import RNFS from 'react-native-fs'
 import RNFetchBlob from 'rn-fetch-blob'
 import Toast from 'react-native-simple-toast'
+import DCTools from './DCTools'
 
 export default ({hash, code, variant}, target) => {
   target = target || code + '_' + variant
@@ -15,21 +16,32 @@ export default ({hash, code, variant}, target) => {
             Global: 'com.linegames.dcglobal',
             KR: 'com.NextFloor.DestinyChild',
             JP: 'com.stairs.destinychild'
-          }
-    Object.keys(regions).forEach(region => {
-      if(RNFS.exists(RNFS.ExternalStorageDirectoryPath + `/Android/data/${regions[region]}/files/asset/character/`))
-        attempts.push(RNFS.copyFile(res.path(), RNFS.ExternalStorageDirectoryPath + `/Android/data/${regions[region]}/files/asset/character/${target}.pck`)
-          .then(() => {
-            installedTo.push(region)
-          })
-          .catch(e => {
-            console.log(e)
-            Toast.show('Error installing mod:\n' + e.message,  Toast.LONG)
-          }))
-      })
+          },
+          region = 'global',
+          complete = () =>
+
+    console.log(target, code + '_' + variant)
+    if(target && target !== code + '_' + variant) {
+      DCTools.swap(
+        res.path(),
+        RNFS.ExternalStorageDirectoryPath + `/Android/data/${regions[region]}/files/asset/character/${target}.pck`
+      )
+      Toast.show(`Installed ${target} to ${target}`)
+    }
+    else {
+      RNFS.copyFile(res.path(), RNFS.ExternalStorageDirectoryPath + `/Android/data/${regions[region]}/files/asset/character/${target}.pck`)
+        .then(() =>
+          Toast.show(`Installed ${target} to ${target}`)
+        )
+        .catch(e => {
+          console.log(e)
+          Toast.show('Error installing mod:\n' + e.message,  Toast.LONG)
+        })
+    }
     Promise.all(attempts).then(() => {
       RNFS.unlink(res.path())
-      Toast.show(`Installed ${target} to ${installedTo.join(', ')}`)
+      Toast.show(`Installed ${target} to ${target}`)
+      // Toast.show(`Installed ${target} to ${installedTo.join(', ')}`)
     })
   })
 }

@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react'
 import {connect, useStore} from 'react-redux'
+import {Paragraph, Dialog, Portal} from 'react-native-paper'
 import Mods from './Mods'
 import Mod from './Mod'
 import Character from './Character'
@@ -7,7 +8,7 @@ import {popHistory} from './actions/history'
 import {pushView} from './actions/view'
 import {BackHandler, Alert} from 'react-native'
 
-function MainView({view, popHistory, pushView}) {
+function MainView({view, popHistory, pushView, loading}) {
   const store = useStore()
   useEffect(() => {
     const backAction = () => {
@@ -24,14 +25,28 @@ function MainView({view, popHistory, pushView}) {
   }, []);
   let CurrentView
   switch(view.name) {
-    case 'mods': CurrentView = Mods; break;
     case 'mod': CurrentView = Mod; break;
     case 'character': CurrentView = Character; break;
+    default: CurrentView = Mods;
   }
-  return CurrentView ? <CurrentView /> : null
+  return (
+    <>
+      {loading.isLoading && (
+        <Portal>
+          <Dialog visible={true} dismissable={false}>
+            <Dialog.Title>{loading.title}</Dialog.Title>
+            <Dialog.Content>
+              <Paragraph>{loading.message}</Paragraph>
+            </Dialog.Content>
+          </Dialog>
+        </Portal>
+      )}
+      <CurrentView />
+    </>
+  )
 }
 
 export default connect(
-  ({view}) => ({view}),
+  ({view, loading}) => ({view, loading}),
   {popHistory, pushView}
 )(MainView)

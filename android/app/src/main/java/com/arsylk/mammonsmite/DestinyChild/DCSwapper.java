@@ -14,6 +14,7 @@ import java.io.FileFilter;
 import java.io.FilenameFilter;
 import java.nio.charset.Charset;
 import java.util.*;
+import android.util.Log;
 
 public class DCSwapper {
     public class Problem {
@@ -57,7 +58,7 @@ public class DCSwapper {
 
     public void matchFiles() {
         line = String.format("[%s] -> [%s]", fromL2D.getModelName(), toL2D.getModelName());
-        System.out.println(line);
+        Log.d("DCTools", line);
         if(output != null) output.append(line+"\n");
 
         //store matches & problems
@@ -70,7 +71,7 @@ public class DCSwapper {
 
         //iter slots
         line = "\n------------------------  files  ------------------------";
-        System.out.println(line);
+        Log.d("DCTools", line);
         if(output != null) output.append(line+"\n");
         for(File fileSlot : matchingTextures ? listFiles(toL2D) : listFilesIgnoreTextures(toL2D)) {
             //direct & replace idx match
@@ -79,7 +80,7 @@ public class DCSwapper {
                 String stringFrom = String.format("%s/%s", fromL2D.getOutput().getName(), fromMatch.getName());
                 String stringTo = String.format("%s/%s", "swap", fileSlot.getName());
                 line = String.format("(%s) -> (%s)", stringFrom, stringTo);
-                System.out.println(line);
+                Log.d("DCTools", line);
                 if(output != null) output.append(line+"\n");
 
                 matches.put(fromMatch, fileSlot);
@@ -91,7 +92,7 @@ public class DCSwapper {
         //not matching textures
         if(!matchingTextures) {
             line = "\n------------------------  textures  ------------------------";
-            System.out.println(line);
+            Log.d("DCTools", line);
             if(output != null) output.append(line+"\n");
             //more => less
             for(int i = 0; i < fromL2D.getTextures().length; i++) {
@@ -100,7 +101,7 @@ public class DCSwapper {
                     String stringFrom = String.format("%s/%s", fromL2D.getOutput().getName(), fromL2D.getTextures()[i].getName());
                     String stringTo = String.format("%s/%s", "swap", toL2D.getTextures()[i].getName());
                     line = String.format("(%s) => (%s)", stringFrom, stringTo);
-                    System.out.println(line);
+                    Log.d("DCTools", line);
                     if(output != null) output.append(line+"\n");
 
                     matches.put(fromL2D.getTextures()[i], toL2D.getTextures()[i]);
@@ -115,7 +116,7 @@ public class DCSwapper {
                     String stringFrom = String.format("%s/%s", fromL2D.getOutput().getName(), fromL2D.getTextures()[i].getName());
                     String stringTo = String.format("%s/%s", "swap", toL2D.getTextures()[i].getName());
                     line = String.format("(%s) => (%s)", stringFrom, stringTo);
-                    System.out.println(line);
+                    Log.d("DCTools", line);
                     if(output != null) output.append(line+"\n");
 
                     matches.put(fromL2D.getTextures()[i], toL2D.getTextures()[i]);
@@ -125,10 +126,9 @@ public class DCSwapper {
             }
         }
 
-
         //auto-resolve problems
         line = "\n------------------------  resolved  ------------------------";
-        System.out.println(line);
+        Log.d("DCTools", line);
         if(output != null) output.append(line+"\n");
         for(Problem problem : new ArrayList<>(problems)) {
             //copy to file
@@ -136,7 +136,7 @@ public class DCSwapper {
                 String stringFrom = String.format("%s/%s", problem.toFile.getParentFile().getName(), problem.toFile.getName());
                 String stringTo = String.format("%s/%s", "swap", problem.toFile.getName());
                 line = String.format("(%s)  -> (%s)", stringFrom, stringTo);
-                System.out.println(line);
+                Log.d("DCTools", line);
                 if(output != null) output.append(line+"\n");
 
                 //remove problem & add match
@@ -150,7 +150,7 @@ public class DCSwapper {
                     String stringFrom = String.format("%s/%s", problem.fromFile.getParentFile().getName(), problem.fromFile.getName());
                     String stringTo = String.format("%s/%s", "swap", unimportant.getName());
                     line = String.format("(%s)  => (%s)", stringFrom, stringTo);
-                    System.out.println(line);
+                    Log.d("DCTools", line);
                     if(output != null) output.append(line+"\n");
 
                     //load texture instead
@@ -171,7 +171,7 @@ public class DCSwapper {
                 String stringFrom = String.format("%s/%s", problem.toFile.getParentFile().getName(), problem.toFile.getName());
                 String stringTo = String.format("%s/%s", "swap", problem.toFile.getName());
                 line = String.format("(%s)  -> (%s)", stringFrom, stringTo);
-                System.out.println(line);
+                Log.d("DCTools", line);
                 if(output != null) output.append(line+"\n");
 
                 problems.remove(problem);
@@ -183,7 +183,7 @@ public class DCSwapper {
         //iter unmatched
         if(!problems.isEmpty()) {
             line = "\n------------------------  unmatched  ------------------------";
-            System.out.println(line);
+            Log.d("DCTools", line);
             if(output != null) output.append(line+"\n");
             for(Problem problem : problems) {
                 String stringFrom = "???";
@@ -193,7 +193,7 @@ public class DCSwapper {
                 if(problem.toFile != null)
                     stringTo = String.format("%s/%s", "swap", problem.toFile.getName());
                 line = String.format("(%s) %s> (%s)", stringFrom, problem.important ? "=" : "-", stringTo);
-                System.out.println(line);
+                Log.d("DCTools", line);
                 if(output != null) output.append(line+"\n");
             }
         }
@@ -201,11 +201,11 @@ public class DCSwapper {
         //iter actions taken
         if(!actions.isEmpty()) {
             line = "\n------------------------  actions  ------------------------";
-            System.out.println(line);
+            Log.d("DCTools", line);
             if(output != null) output.append(line+"\n");
             for(Action action : actions) {
                 line = (action.add ? "add" : "remove")+" "+action.target+" "+action.value;
-                System.out.println(line);
+                Log.d("DCTools", line);
                 if(output != null) output.append(line+"\n");
             }
         }

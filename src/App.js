@@ -16,16 +16,13 @@ import {
   StatusBar,
   Alert
 } from 'react-native';
-import {combineReducers, createStore, applyMiddleware} from 'redux'
+
 import {Provider} from 'react-redux'
-import thunk from 'redux-thunk'
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {DefaultTheme, Provider as PaperProvider, Appbar} from 'react-native-paper';
-import characters from './reducers/characters'
-import history from './reducers/history'
-import mods from './reducers/mods'
-import view from './reducers/view'
+import store from './store'
 import {fetchMods} from './actions/mods'
+import {fetchModelInfo} from './actions/model-info'
 import {fetchCharacters} from './actions/characters'
 import MainView from './MainView'
 import ScrollTop from './ScrollTop';
@@ -48,13 +45,6 @@ const theme = {
     placeholder: '#aaa'
   },
 };
-
-const store = createStore(combineReducers({
-  characters,
-  mods,
-  view,
-  history
-}), applyMiddleware(thunk));
 
 let readExternalStorageRequested = false
 
@@ -113,11 +103,9 @@ function App() {
     // Update the document title using the browser API
     store.dispatch(fetchMods())
     store.dispatch(fetchCharacters())
+    store.dispatch(fetchModelInfo())
     DCTools.setTmpPath(RNFS.DocumentDirectoryPath + '/tmp')
-    // DCTools.swap(
-    //   RNFS.ExternalStorageDirectoryPath + `/Android/data/com.linegames.dcglobal/files/asset/character/c000_01.pck`,
-    //   RNFS.ExternalStorageDirectoryPath + `/Android/data/com.linegames.dcglobal/files/asset/character/c001_01.pck`
-    // )
+    DCTools.setAppsPath(RNFS.ExternalStorageDirectoryPath + '/Android/data')
   }, []);
   return readExternalStorageGranted
     ? (

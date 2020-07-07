@@ -89,9 +89,9 @@ public class DCTools extends ReactContextBaseJavaModule {
       }
       catch(Exception e) {
         e.printStackTrace();
-        show("Error extracting files for swapping " + e.getMessage(), 10);
       }
     }
+    Log.w("DCTools", "SWAPPING-FILES ");
     try {
       DCModel sourceDcModel = DCTools.pckToModel(sourcePck);
       L2DModel sourceLdModel = sourceDcModel.asL2DModel();
@@ -109,7 +109,7 @@ public class DCTools extends ReactContextBaseJavaModule {
         // publishProgress("swap pck: "+swapPck.getAbsolutePath());
 
         //update model info
-        applyModelInfo(targetLdModel.getModelId(), sourceLdModelInfo);
+        // applyModelInfo(targetLdModel.getModelId(), sourceLdModelInfo);
 
         //backup original
         // FileUtils.moveFile(file, backup);
@@ -120,12 +120,12 @@ public class DCTools extends ReactContextBaseJavaModule {
         // FileUtils.copyFile(swapPck, file);
         // publishProgress("loaded: "+file.getAbsolutePath());
       }else {
-        Log.d("DCTools", "ignored: " + targetPath);
+        Log.w("DCTools", "ignored: " + targetPath);
       }
     }
     catch(Exception e) {
       e.printStackTrace();
-      Log.d("DCTools", "Error swapping files " + e.getMessage());
+      Log.w("DCTools", "Error swapping files " + e.getMessage());
     }
     // DCModel dcModel = DCTools.pckToModel(sourcePck);
   }
