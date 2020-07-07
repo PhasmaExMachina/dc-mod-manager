@@ -12,7 +12,7 @@ import {
   StyleSheet,
   ScrollView,
   View,
-  Text,
+  Linking,
   StatusBar,
   Alert
 } from 'react-native';
@@ -134,6 +134,26 @@ function App() {
               setMenuOpen(false)
               store.dispatch(pushView('settings'))
             }} title="Settings" />
+            <Menu.Item onPress={() => {
+              setMenuOpen(false)
+              Linking.openURL('https://github.com/PhasmaExMachina/dc-mod-manager/blob/master/README.md#dc-mod-manager-app-for-android')
+            }} title="About" />
+            <Menu.Item onPress={() => {
+              setMenuOpen(false)
+              Linking.openURL('https://github.com/PhasmaExMachina/dc-mod-manager/issues')
+            }} title="Feedback" />
+            <Menu.Item onPress={() => {
+              setMenuOpen(false)
+              Linking.openURL('https://github.com/PhasmaExMachina/dc-mod-manager/releases')
+            }} title="Releases" />
+            <Menu.Item onPress={() => {
+              setMenuOpen(false)
+              Linking.openURL('https://github.com/PhasmaExMachina/dc-mod-manager/blob/master/README.md#credits')
+            }} title="Credits" />
+            <Menu.Item onPress={() => {
+              setMenuOpen(false)
+              Linking.openURL('https://github.com/PhasmaExMachina/dc-mod-manager')
+            }} title="Fork on GitHub" />
           </Menu>
           {/* <Appbar.Action icon={MORE_ICON} onPress={() => {}} /> */}
         </Appbar.Header>
