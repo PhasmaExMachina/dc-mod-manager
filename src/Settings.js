@@ -17,6 +17,17 @@ const Settings = ({config, setConfig}) => {
         </Card.Content>
       </Card>
       <Card style={{marginBottom: 20}}>
+        <Card.Title title="Default Mods View Sort Order" />
+        <Card.Content>
+          <RadioButton.Group onValueChange={value => setConfig({defaultModsSortOrder: value})} value={config.defaultModsSortOrder}>
+            <RadioButton.Item label="Sort by code" value="code" />
+            <RadioButton.Item label="Sort by name" value="name" />
+            <RadioButton.Item label="Sort by recently added" value="recently added" />
+            <RadioButton.Item label="Sort by oldest" value="oldest" />
+          </RadioButton.Group>
+        </Card.Content>
+      </Card>
+      <Card style={{marginBottom: 20}}>
         <Card.Title title="Game Region" />
         <Card.Content>
           <RadioButton.Group onValueChange={value => setConfig({region: value})} value={config.region}>

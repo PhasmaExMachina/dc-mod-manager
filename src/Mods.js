@@ -9,10 +9,10 @@ import ScaledImage from './ScaledImage'
 import ModPreview from './ModPreview'
 import {scrollToTop} from './ScrollTop'
 
-function Mods({mods, characters}) {
+function Mods({mods, characters, config}) {
   const [filter, setFilter] = useState(''),
         [sortMenuVisible, setSortMenuVisible] = useState(false),
-        [sort, setSort] = useState('recently added'),
+        [sort, setSort] = useState(config.defaultModsSortOrder),
         [page, setPageVal] = useState(0),
         setPage = p => {
           setPageVal(p)
@@ -60,6 +60,7 @@ function Mods({mods, characters}) {
       <View style={{marginBottom: 20}}>
         <Menu
           visible={sortMenuVisible}
+          style={{marginTop: 46}}
           onDismiss={() => setSortMenuVisible(false)}
           anchor={<Button title={'Sorted by ' + sort} onPress={() => setSortMenuVisible(true)} />}>
           <Menu.Item onPress={() => setSortAndClose('code')} title="Sort by code" />
@@ -88,5 +89,5 @@ function Mods({mods, characters}) {
 }
 
 export default connect(
-  ({mods, characters}) => ({mods, characters})
+  ({mods, characters, config}) => ({mods, characters, config})
 )(Mods)

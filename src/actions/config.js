@@ -30,6 +30,7 @@ export const loadConfig = () =>
                 config.installedRegions = installedRegions
                 if(installedRegions.indexOf(config.region) < 0) config.region = installedRegions[0]
                 config.defaultView = config.defaultView || 'mods'
+                config.defaultModsSortOrder = config.defaultModsSortOrder || 'recently added'
                 dispatch(setConfig(config))
               })
               .catch((err) => {
