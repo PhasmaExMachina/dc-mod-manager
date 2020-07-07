@@ -23,7 +23,7 @@ This app is powered by the [Destiny Child Mods Archive](https://github.com/Phasm
 Many other coders and artists have done work over the years that has made this app possible including, but not limited to:
 
 * [Loki](https://en.wikipedia.org/wiki/Loki) - Modder and author of original mod archive and DC Mod Manager apps, now vanished.
-* [Arsylk](https://github.com/Arsylk) - Live2D viewer implementation, [mods forum](https://arsylk.pythonanywhere.com/apk/view_models), and much more
+* [Arsylk](https://github.com/Arsylk) - Live2D viewer implementation, [mods forum](https://arsylk.pythonanywhere.com/apk/view_models), swapping, and much more
 * TinyBanana
 * WhoCares8128
 * Envy
