@@ -1,11 +1,10 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {View, TouchableHighlight, TouchableOpacity, ScrollView} from 'react-native'
-import {Text, Subheading, Button, useTheme, Dialog, Portal, Paragraph, TextInput, Menu} from 'react-native-paper'
+import {Subheading, Button, useTheme, Dialog, Portal, Paragraph, TextInput, Menu} from 'react-native-paper'
 import ModLive2DPreview from './ModLive2DPreview'
 import {pushView} from './actions/view'
 import {install} from './actions/mods'
-import Autocomplete from 'react-native-autocomplete-input'
 
 function Mod({mod: {code, variant}, hash, character, pushView, install, characters}) {
   const {colors} = useTheme(),
@@ -47,7 +46,7 @@ function Mod({mod: {code, variant}, hash, character, pushView, install, characte
           </View>
         ))}
         <Button icon="swap-horizontal-bold" mode="contained" onPress={() => setInstallToOpen(true)}>
-          Install to ????_??.pck
+          Swap into another character
         </Button>
       </View>
       <Portal>
@@ -55,7 +54,7 @@ function Mod({mod: {code, variant}, hash, character, pushView, install, characte
           setInstallToOpen(false)
           setAutocompleteVisible(false)
         }}>
-          <Dialog.Title>Install to Another Character</Dialog.Title>
+          <Dialog.Title>Swap into Another Character</Dialog.Title>
           <Dialog.Content>
             <Paragraph style={{marginBottom: 20}}>This will install {code}_{variant}.pck to another character. Please select the character and variant you want to replace.</Paragraph>
             {swapCode
