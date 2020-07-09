@@ -28,6 +28,7 @@ import {loadConfig} from './actions/config'
 import MainView from './MainView'
 import ScrollTop from './ScrollTop';
 import DCTools from './DCTools'
+import Drawer from './Drawer'
 import RNFS from 'react-native-fs'
 import { pushView } from './actions/view';
 import ScaledImage from './ScaledImage'
@@ -55,6 +56,7 @@ function App() {
 
   const [readExternalStorageGranted, setReadExternalStorageGranted] = useState(false),
         [menuOpen, setMenuOpen] = useState(false),
+        [drawerOpen, setDrawerOpen] = useState(false),
         requestReadExternalStoragePermission = () => {
           request(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE).then((result) => {
             checkReadExternalStorageGranted()
@@ -116,16 +118,23 @@ function App() {
     ? (
     <Provider store={store}>
       <PaperProvider theme={theme}>
-        <Appbar.Header dark={true}>
-          <TouchableOpacity onPress={() => store.dispatch(pushView(store.getState().config.defaultView)) }>
+        <Appbar.Header dark={true} style={{zIndex: 0}}>
+          <Appbar.Action icon={drawerOpen ? 'close' : 'menu'} onPress={() => setDrawerOpen(!drawerOpen)} color="white" />
+          {/* <TouchableOpacity onPress={() => store.dispatch(pushView(store.getState().config.defaultView)) }>
             <ScaledImage source={require('./icon.png')} width={36} style={{marginLeft: 15}} />
-          </TouchableOpacity>
-          <Appbar.Content title="DC Mod Manager" onPress={() => store.dispatch(pushView(store.getState().config.defaultView)) }/>
+          </TouchableOpacity> */}
+          <Appbar.Content title="DC Mod Manager" onPress={() => {
+            setDrawerOpen(false)
+            store.dispatch(pushView(store.getState().config.defaultView))
+          }}/>
           <Menu
             visible={menuOpen}
             onDismiss={() => setMenuOpen(false)}
             style={{marginTop: 56}}
-            anchor={<Appbar.Action icon="dots-vertical" onPress={() => setMenuOpen(true)} color="white" />}>
+            anchor={<Appbar.Action icon="dots-vertical" onPress={() => {
+              setDrawerOpen(false)
+              setMenuOpen(true)
+            }} color="white" />}>
             <Menu.Item onPress={() => {
               setMenuOpen(false)
               store.dispatch(pushView('characters'))
@@ -169,6 +178,7 @@ function App() {
             </ScrollView>
           </ScrollTop>
         </View>
+        {drawerOpen && <Drawer onClose={() => setDrawerOpen(false)} />}
       </PaperProvider>
     </Provider>
   )
