@@ -2,9 +2,10 @@ export const MODS_SET = 'MODS_SET'
 import RNFS from 'react-native-fs'
 import RNFetchBlob from 'rn-fetch-blob'
 import Toast from 'react-native-simple-toast'
-import swap from '../swap'
+import swap from '../lib/swap'
 import {setLoading} from './loading'
-import {getCharactersPath} from '../paths'
+import {getCharactersPath} from '../lib/paths'
+import { writeInstalled } from '../lib/installed'
 
 export const fetchMods = () =>
   (dispatch) => fetch('https://phasmaexmachina.github.io/destiny-child-mods-archive/data/mods.json')
@@ -23,9 +24,7 @@ const _install =  ({hash, code, variant}, target, {characters}, dispatch, comple
   return RNFetchBlob.config(options).fetch('GET', `https://phasmaexmachina.github.io/destiny-child-mods-archive/characters/${code}_${variant}/${hash}/${code}_${variant}.pck`).then((res) => {
     const installedTo = [],
           attempts = [],
-          complete = () => {
-            RNFS.unlink(res.path())
-          }
+          complete = () => RNFS.unlink(res.path())
       if(target && target !== source) {
         // install original
         dispatch(setLoading(true, {title: 'Installing mod', message: `Downloading clean ${target} ...`}))
@@ -41,7 +40,7 @@ const _install =  ({hash, code, variant}, target, {characters}, dispatch, comple
             })
       }
       else {
-        return RNFS.copyFile(res.path(), getCharactersPath() + `${target}.pck`)
+        return RNFetchBlob.fs.cp(res.path(), getCharactersPath() + `${target}.pck`)
           .then(complete)
           .catch(e => {
             console.log(e)
@@ -57,6 +56,9 @@ export const install = ({hash, code, variant}, target) =>
     _install({hash, code, variant}, target, getState(), dispatch)
       .then(() => {
         Toast.show(`Installed to ${target}`)
-        dispatch(setLoading(false))
+        const {installed} = getState()
+        installed[target || code + '_' + variant] = {hash}
+        dispatch(setLoading(true, {title: 'Saving install information', message: 'Storing installed mod information for later.'}))
+        writeInstalled(installed).then(() => dispatch(setLoading(false)))
       })
   }

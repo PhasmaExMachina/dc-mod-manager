@@ -1,8 +1,9 @@
 export const CONFIG_SET = 'CONFIG_SET'
 import {setLoading} from './loading'
+import {loadInstalled} from './installed'
 import {setView} from './view'
 import RNFS from 'react-native-fs'
-import {getSettingsPath, getDestinyChildPath} from '../paths'
+import {getSettingsPath, getDestinyChildPath} from '../lib/paths'
 
 export const loadConfig = () =>
   (dispatch) => {
@@ -36,6 +37,7 @@ export const loadConfig = () =>
                 config.defaultCharacterSortOrder = config.defaultCharacterSortOrder || 'code'
                 config.defaultCharacterShow = config.defaultCharacterShow || 'all'
                 dispatch(setConfig(config))
+                dispatch(loadInstalled())
               })
               .catch((err) => {
                 console.log(err.message, err.code);

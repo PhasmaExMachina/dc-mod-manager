@@ -1,5 +1,5 @@
 import RNFS from 'react-native-fs'
-import DCTools from './DCTools'
+import DCTools from '../DCTools'
 import store from './store'
 import {getModelInfoPath} from './paths'
 import {readModelInfo, writeModelInfo} from './model-info'

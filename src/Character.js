@@ -1,12 +1,21 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {View, TouchableHighlight} from 'react-native'
-import {Subheading, useTheme, Headline, Card} from 'react-native-paper'
+import {Subheading, useTheme, Headline, Text} from 'react-native-paper'
 import {pushView} from './actions/view'
 import ModPreview from './ModPreview'
+import InstalledPreview from './InstalledPreview'
 
-function Character({character, pushView, code}) {
-  const {colors} = useTheme()
+function Character({character, pushView, code, installed}) {
+  const {colors} = useTheme(),
+        installedVariants = character && Object.keys(character.variants)
+          .reduce((acc, variant) => {
+            const target = character.code + '_' + variant
+            if(installed[target]) {
+              acc[target] = installed[target]
+            }
+            return acc
+          }, {})
   return character
     ? (
       <View style={{padding: 20}}>
@@ -17,6 +26,15 @@ function Character({character, pushView, code}) {
           <Subheading style={{marginLeft: 10, marginRight: 10}}>&gt;</Subheading>
           <Subheading>{character.name || character.code}</Subheading>
         </View>
+        <Headline style={{marginBottom: 20}}>
+          Installed {character.name || character.code} Mods
+        </Headline>
+        {Object.keys(installedVariants).length
+          ? Object.keys(installedVariants).map(target =>
+              <InstalledPreview hash={installedVariants[target].hash} target={target} />
+            )
+          : <Text>It doesn't look like you've installed any mods for {character.name || character.code} yet.</Text>
+        }
         {Object.keys(character.variants).sort().map(variant => (
           <View key={variant}>
             <TouchableHighlight onPress={() =>
@@ -24,21 +42,7 @@ function Character({character, pushView, code}) {
             }>
               <Headline style={{marginBottom: 20, marginTop: 40}}>
                 {/* {character.variants[variant].title} {character.name} ({character.code}_{variant}) */}
-                {character.variants[variant].title} {character.name || '?'} - {
-                  code.match(/^s/)
-                    ? 'Spa'
-                    :  variant === '00'
-                      ? 'Story'
-                      : variant === '01'
-                        ? !character.starLevel ? 'Story' : 'Rank A-E'
-                        : variant === '02'
-                          ? 'Rank S'
-                          : variant.match(/^1[0-9]$/)
-                            ? 'Costume'
-                            : variant === '89'
-                              ? 'Raid'
-                              : '?'
-                }
+                {character.code}_{variant} {character.variants[variant].title} {character.name || '?'} Mods
               </Headline>
             </TouchableHighlight>
             {character.variants[variant].mods.map(hash => (
@@ -52,9 +56,10 @@ function Character({character, pushView, code}) {
 }
 
 export default connect(
-  ({characters, view}) => ({
+  ({characters, installed, view}) => ({
     character: characters[view.data.code],
-    code: view.data.code
+    code: view.data.code,
+    installed
   }),
   {pushView}
 )(Character)

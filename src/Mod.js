@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
-import {View, TouchableHighlight, TouchableOpacity, ScrollView} from 'react-native'
-import {Subheading, Button, useTheme, Dialog, Portal, Paragraph, TextInput, Menu} from 'react-native-paper'
+import {View, TouchableOpacity, ScrollView} from 'react-native'
+import {Subheading, Button, useTheme, Dialog, Portal, Paragraph, TextInput, Menu, TouchableRipple} from 'react-native-paper'
 import ModLive2DPreview from './ModLive2DPreview'
 import {pushView} from './actions/view'
 import {install} from './actions/mods'
@@ -25,14 +25,14 @@ function Mod({mod: {code, variant}, hash, character, pushView, install, characte
           : []
   return (
     <>
-      <View style={{padding: 20, flex: 1, flexDirection: 'row'}}>
-        <TouchableHighlight onPress={() => pushView('characters')}>
+      <View style={{padding: 20, flex: 1, flexDirection: 'row', marginBottom: -20}}>
+        <TouchableRipple onPress={() => pushView('characters')}>
           <Subheading style={{color: colors.primary}}>Characters</Subheading>
-        </TouchableHighlight>
+        </TouchableRipple>
         <Subheading style={{marginLeft: 10, marginRight: 10}}>&gt;</Subheading>
-        <TouchableHighlight onPress={() => pushView('character', {code})}>
+        <TouchableRipple onPress={() => pushView('character', {code})}>
           <Subheading style={{color: colors.primary}}>{character.name || character.code}</Subheading>
-        </TouchableHighlight>
+        </TouchableRipple>
         <Subheading style={{marginLeft: 10, marginRight: 10}}>&gt;</Subheading>
         <Subheading>{code}_{variant}</Subheading>
       </View>
@@ -101,11 +101,12 @@ function Mod({mod: {code, variant}, hash, character, pushView, install, characte
 }
 
 export default connect(
-  ({characters, mods, view: {data: {hash}}}) => ({
+  ({installed, characters, mods, view: {data: {hash}}}) => ({
     mod: mods[hash],
     character: mods[hash] && characters[mods[hash].code],
     hash,
-    characters
+    characters,
+    installed
   }),
   {pushView, install}
 )(Mod)

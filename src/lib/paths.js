@@ -7,6 +7,10 @@ const regions = {
   jp: 'com.stairs.destinychild'
 }
 
+export const getDcModManagerFolderPath = () => {
+  return RNFS.ExternalStorageDirectoryPath + `/DCModManager/`
+}
+
 export const getDestinyChildPath = regionOverride => {
   const {config: {region}} = store.getState()
   return RNFS.ExternalStorageDirectoryPath + `/Android/data/${regions[regionOverride || region]}/`
@@ -21,5 +25,10 @@ export const getModelInfoPath = () => {
 }
 
 export const getSettingsPath = () => {
-  return RNFS.DocumentDirectoryPath + '/config.json'
+  return getDcModManagerFolderPath() + '/config.json'
+}
+
+export const getInstalledPath = () => {
+  const region = store.getState().config.region
+  return getDcModManagerFolderPath() + `/installed${region}.json`
 }

@@ -20,12 +20,14 @@ import {
 import {Provider} from 'react-redux'
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {DefaultTheme, Provider as PaperProvider, Appbar, Menu} from 'react-native-paper';
-import store from './store'
+import store from './lib/store'
 import {fetchMods} from './actions/mods'
 import {fetchModelInfo} from './actions/model-info'
 import {fetchCharacters} from './actions/characters'
 import {loadConfig} from './actions/config'
+import {loadInstalled} from './actions/installed'
 import MainView from './MainView'
+import {getDcModManagerFolderPath} from './lib/paths'
 import ScrollTop from './ScrollTop';
 import DCTools from './DCTools'
 import Drawer from './Drawer'
@@ -39,7 +41,7 @@ const theme = {
   dark: true,
   colors: {
     ...DefaultTheme.colors,
-    // primary: '#9600b6',
+    primary: '#facf32',
     // secondary: '#dd9200',
     accent: '#f1c40f',
     background: '#111',
@@ -57,11 +59,27 @@ function App() {
   const [readExternalStorageGranted, setReadExternalStorageGranted] = useState(false),
         [menuOpen, setMenuOpen] = useState(false),
         [drawerOpen, setDrawerOpen] = useState(false),
-        requestReadExternalStoragePermission = () => {
+        loadInitialData = () => {
+          store.dispatch(loadConfig())
+          store.dispatch(fetchMods())
+          store.dispatch(fetchCharacters())
+          store.dispatch(fetchModelInfo())
+          DCTools.setTmpPath(RNFS.DocumentDirectoryPath + '/tmp')
+          DCTools.setAppsPath(RNFS.ExternalStorageDirectoryPath + '/Android/data')
+        },
+        continueAfterPermissionGranted = () => {
+          setReadExternalStorageGranted(true)
+          RNFS.exists(getDcModManagerFolderPath())
+            .then(exists => exists
+              ? loadInitialData()
+              : RNFS.mkdir(getDcModManagerFolderPath()).then(loadInitialData)
+            )
+
+        },
+        requestReadExternalStoragePermission = () =>
           request(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE).then((result) => {
             checkReadExternalStorageGranted()
-          })
-        },
+          }),
         checkReadExternalStorageGranted = () => {
           check(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE)
             .then(result => {
@@ -92,7 +110,7 @@ function App() {
                   }
                   break;
                 case RESULTS.GRANTED:
-                  setReadExternalStorageGranted(true)
+                  continueAfterPermissionGranted()
                   break;
                 case RESULTS.BLOCKED:
                   console.log('The permission is denied and not requestable anymore');
@@ -104,22 +122,13 @@ function App() {
             });
           }
 
-  useEffect(() => {
-    checkReadExternalStorageGranted()
-    // Update the document title using the browser API
-    store.dispatch(loadConfig())
-    store.dispatch(fetchMods())
-    store.dispatch(fetchCharacters())
-    store.dispatch(fetchModelInfo())
-    DCTools.setTmpPath(RNFS.DocumentDirectoryPath + '/tmp')
-    DCTools.setAppsPath(RNFS.ExternalStorageDirectoryPath + '/Android/data')
-  }, []);
+  useEffect(() => checkReadExternalStorageGranted(), []);
   return readExternalStorageGranted
     ? (
     <Provider store={store}>
       <PaperProvider theme={theme}>
-        <Appbar.Header dark={true} style={{zIndex: 0}}>
-          <Appbar.Action icon={drawerOpen ? 'close' : 'menu'} onPress={() => setDrawerOpen(!drawerOpen)} color="white" />
+        <Appbar.Header style={{zIndex: 0, backgroundColor: '#69139e'}}>
+          <Appbar.Action icon={drawerOpen ? 'close' : 'menu'} onPress={() => setDrawerOpen(!drawerOpen)} />
           {/* <TouchableOpacity onPress={() => store.dispatch(pushView(store.getState().config.defaultView)) }>
             <ScaledImage source={require('./icon.png')} width={36} style={{marginLeft: 15}} />
           </TouchableOpacity> */}
@@ -131,22 +140,10 @@ function App() {
             visible={menuOpen}
             onDismiss={() => setMenuOpen(false)}
             style={{marginTop: 56}}
-            anchor={<Appbar.Action icon="dots-vertical" onPress={() => {
+            anchor={<Appbar.Action icon="dots-vertical" color="white" onPress={() => {
               setDrawerOpen(false)
               setMenuOpen(true)
-            }} color="white" />}>
-            <Menu.Item onPress={() => {
-              setMenuOpen(false)
-              store.dispatch(pushView('characters'))
-            }} title="Characters" />
-            <Menu.Item onPress={() => {
-              setMenuOpen(false)
-              store.dispatch(pushView('mods'))
-            }} title="Mods" />
-            <Menu.Item onPress={() => {
-              setMenuOpen(false)
-              store.dispatch(pushView('settings'))
-            }} title="Settings" />
+            }} />}>
             <Menu.Item onPress={() => {
               setMenuOpen(false)
               Linking.openURL('https://github.com/PhasmaExMachina/dc-mod-manager/blob/master/README.md#dc-mod-manager-app-for-android')

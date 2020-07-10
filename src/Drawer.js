@@ -35,12 +35,29 @@ const DrawerNavigation = ({onClose, view, pushView}) => {
             <Drawer.Item
               label="Mods"
               dark={true}
+              icon="puzzle"
               active={view.name === 'mods'}
               onPress={() => navigate('mods')} />
             <Drawer.Item
               label="Characters"
+              icon="account"
               active={view.name === 'characters'}
               onPress={() => navigate('characters')} />
+            <Drawer.Item
+              label="Installed Mods"
+              icon="download"
+              active={view.name === 'installed'}
+              onPress={() => navigate('installed')} />
+            <Drawer.Item
+              label="Tools"
+              icon="hammer"
+              active={view.name === 'tools'}
+              onPress={() => navigate('tools')} />
+            <Drawer.Item
+              label="Settings"
+              icon="settings"
+              active={view.name === 'settings'}
+              onPress={() => navigate('settings')} />
           </View>
         </ScrollView>
       </Surface>

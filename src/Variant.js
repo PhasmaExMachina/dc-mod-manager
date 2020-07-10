@@ -4,7 +4,7 @@ import {Headline, Subheading, useTheme, Paragraph, Card, Button} from 'react-nat
 import {connect} from 'react-redux'
 import {pushView} from './actions/view'
 import Slider from '@react-native-community/slider'
-import {readModelInfo, writeModelInfo} from './model-info'
+import {readModelInfo, writeModelInfo} from './lib/model-info'
 import {setLoading} from './actions/loading'
 
 const Variant = ({character, variant, code, pushView, setLoading}) => {

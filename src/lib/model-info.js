@@ -1,7 +1,7 @@
 import RNFS from 'react-native-fs'
 import {getModelInfoPath} from './paths'
 import store from './store'
-import modelInfo from './reducers/model-info';
+import modelInfo from '../reducers/model-info';
 import RNFetchBlob from 'rn-fetch-blob'
 
 export const readModelInfo = () =>

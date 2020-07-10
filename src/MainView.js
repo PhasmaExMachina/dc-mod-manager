@@ -7,6 +7,8 @@ import Mods from './Mods'
 import Mod from './Mod'
 import Variant from './Variant'
 import Settings from './Settings'
+import Tools from './Tools'
+import InstalledMods from './InstalledMods'
 import {popHistory} from './actions/history'
 import {pushView} from './actions/view'
 import {BackHandler, Alert} from 'react-native'
@@ -29,9 +31,12 @@ function MainView({view, popHistory, pushView, loading}) {
   let CurrentView
   switch(view.name) {
     case 'mod': CurrentView = Mod; break;
+    case 'installed': CurrentView = InstalledMods; break;
     case 'character': CurrentView = Character; break;
     case 'characters': CurrentView = Characters; break;
+    case 'characters': CurrentView = Characters; break;
     case 'settings': CurrentView = Settings; break;
+    case 'tools': CurrentView = Tools; break;
     case 'variant': CurrentView = Variant; break;
     default: CurrentView = Mods;
   }
