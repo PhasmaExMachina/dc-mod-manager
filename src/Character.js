@@ -30,7 +30,7 @@ function Character({character, pushView, code, installed}) {
           Installed {character.name || character.code} Mods
         </Headline>
         {Object.keys(installedVariants).length
-          ? Object.keys(installedVariants).map(target =>
+          ? Object.keys(installedVariants).sort().map(target =>
               <InstalledPreview hash={installedVariants[target].hash} target={target} />
             )
           : <Text>It doesn't look like you've installed any mods for {character.name || character.code} yet.</Text>

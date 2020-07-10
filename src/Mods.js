@@ -5,22 +5,19 @@ import {
   Button
 } from 'react-native'
 import {TextInput, Menu, DataTable, Headline} from 'react-native-paper'
-import ScaledImage from './ScaledImage'
+import {pushView} from './actions/view'
 import ModPreview from './ModPreview'
 import {scrollToTop} from './ScrollTop'
 
-function Mods({mods, characters, config}) {
+function Mods({mods, characters, config, view, pushView}) {
   if(!config.defaultModsSortOrder) return null
   const [filter, setFilter] = useState(''),
         [sortMenuVisible, setSortMenuVisible] = useState(false),
-        [sort, setSort] = useState(config.defaultModsSortOrder),
-        [page, setPageVal] = useState(0),
-        setPage = p => {
-          setPageVal(p)
-          scrollToTop()
-        }
+        page = view.data.page || 0,
+        sort = view.data.sort || config.defaultModsSortOrder,
+        setPage = p => pushView('mods', {...view.data, page: p})
         setSortAndClose = val => {
-          setSort(val)
+          pushView('mods', {...view.data, sort: val, page: 0})
           setSortMenuVisible(false)
         },
         itemsPerPage = 10,
@@ -91,5 +88,6 @@ function Mods({mods, characters, config}) {
 }
 
 export default connect(
-  ({mods, characters, config}) => ({mods, characters, config})
+  ({mods, characters, config, view}) => ({mods, characters, config, view}),
+  {pushView}
 )(Mods)
