@@ -7,29 +7,24 @@ import {
 import {TextInput, Menu, DataTable, Headline} from 'react-native-paper'
 import ScaledImage from './ScaledImage'
 import ModPreview from './ModPreview'
-import {scrollToTop} from './ScrollTop'
 import CharacterPreview from './CharacterPreview'
+import {pushView} from './actions/view'
 
-function Mods({mods, characters, config}) {
+function Mods({mods, characters, config, view, pushView}) {
   if(!config.defaultCharacterSortOrder) return null
   const [filter, setFilter] = useState(''),
         [sortMenuVisible, setSortMenuVisible] = useState(false),
-        [sort, setSort] = useState(config.defaultCharacterSortOrder),
-        [show, setShow] = useState(config.defaultCharacterShow),
         [showMenuVisible, setShowMenuVisible] = useState(false),
-        [page, setPageVal] = useState(0),
-        setPage = p => {
-          setPageVal(p)
-          scrollToTop()
-        }
+        page = view.data.page || 0,
+        show = view.data.show || config.defaultCharacterShow,
+        sort = view.data.sort || config.defaultCharacterSortOrder,
+        setPage = p => pushView('characters', {...view.data, page: p}),
         setSortAndClose = val => {
-          setSort(val)
-          setPage(0)
+          pushView('characters', {...view.data, page: 0, sort: val}),
           setSortMenuVisible(false)
         },
         setShowAndClose = val => {
-          setPage(0)
-          setShow(val)
+          pushView('characters', {...view.data, page: 0, show: val}),
           setShowMenuVisible(false)
         },
         itemsPerPage = 10,
@@ -130,5 +125,6 @@ function Mods({mods, characters, config}) {
 }
 
 export default connect(
-  ({mods, characters, config}) => ({mods, characters, config})
+  ({mods, characters, config, view}) => ({mods, characters, config, view}),
+  {pushView}
 )(Mods)
