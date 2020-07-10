@@ -6,9 +6,8 @@
  * @flow strict-local
  */
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, version} from 'react';
 import {
-  TouchableOpacity,
   StyleSheet,
   ScrollView,
   View,
@@ -19,7 +18,7 @@ import {
 
 import {Provider} from 'react-redux'
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import {DefaultTheme, Provider as PaperProvider, Appbar, Menu} from 'react-native-paper';
+import {Portal, Paragraph, Button, Dialog, DefaultTheme, Provider as PaperProvider, Appbar, Menu} from 'react-native-paper';
 import store from './lib/store'
 import {fetchMods} from './actions/mods'
 import {fetchModelInfo} from './actions/model-info'
@@ -32,8 +31,10 @@ import ScrollTop from './ScrollTop';
 import DCTools from './DCTools'
 import Drawer from './Drawer'
 import RNFS from 'react-native-fs'
-import { pushView } from './actions/view';
+import {pushView} from './actions/view';
+import {setLoading} from './actions/loading';
 import ScaledImage from './ScaledImage'
+import {checkForUpdate, installUpdate} from './lib/update'
 
 const theme = {
   ...DefaultTheme,
@@ -59,6 +60,7 @@ function App() {
   const [readExternalStorageGranted, setReadExternalStorageGranted] = useState(false),
         [menuOpen, setMenuOpen] = useState(false),
         [drawerOpen, setDrawerOpen] = useState(false),
+        [update, setUpdate] = useState(false),
         loadInitialData = () => {
           store.dispatch(loadConfig())
           store.dispatch(fetchMods())
@@ -66,6 +68,7 @@ function App() {
           store.dispatch(fetchModelInfo())
           DCTools.setTmpPath(RNFS.DocumentDirectoryPath + '/tmp')
           DCTools.setAppsPath(RNFS.ExternalStorageDirectoryPath + '/Android/data')
+          checkForUpdate().then(setUpdate)
         },
         continueAfterPermissionGranted = () => {
           setReadExternalStorageGranted(true)
@@ -176,6 +179,21 @@ function App() {
           </ScrollTop>
         </View>
         {drawerOpen && <Drawer onClose={() => setDrawerOpen(false)} />}
+        <Portal>
+        <Dialog visible={update} onDismiss={() => setUpdate(false)}>
+          <Dialog.Title>New update v{update.version} available</Dialog.Title>
+          <Dialog.Content>
+            <Paragraph>{update.changelog}</Paragraph>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={() => setUpdate(false)}>Cancel</Button>
+            <Button onPress={() => {
+              installUpdate(update.version)
+              setUpdate(false)
+            }}>Install</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
       </PaperProvider>
     </Provider>
   )

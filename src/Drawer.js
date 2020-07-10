@@ -1,8 +1,9 @@
 import React from 'react'
-import {Text, Surface, Drawer} from 'react-native-paper'
-import {View, Dimensions, ScrollView, TouchableOpacity} from 'react-native'
+import {Text, Surface, Drawer, Subheading, TouchableRipple} from 'react-native-paper'
+import {Linking, Divider, View, Dimensions, ScrollView, TouchableOpacity} from 'react-native'
 import {connect} from 'react-redux'
 import {pushView} from './actions/view'
+import version from './version.json'
 
 const DrawerNavigation = ({onClose, view, pushView}) => {
   const navigate = (viewName, viewData) => {
@@ -27,7 +28,6 @@ const DrawerNavigation = ({onClose, view, pushView}) => {
         top: 52,
         left: 0,
         minWidth: 200,
-        backgroundColor: '#333',
         height: Dimensions.get('window').height
       }}>
         <ScrollView>
@@ -58,6 +58,12 @@ const DrawerNavigation = ({onClose, view, pushView}) => {
               icon="settings"
               active={view.name === 'settings'}
               onPress={() => navigate('settings')} />
+            <Drawer.Section style={{margin: 20}} />
+            <TouchableRipple style={{margin: 20}} onPress={() => {
+              Linking.openURL('https://github.com/PhasmaExMachina/dc-mod-manager/releases')
+            }}>
+              <Subheading>version {version}</Subheading>
+            </TouchableRipple>
           </View>
         </ScrollView>
       </Surface>

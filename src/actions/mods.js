@@ -17,11 +17,8 @@ export const setMods = mods => ({type: MODS_SET, mods})
 const _install =  ({hash, code, variant}, target, {characters}, dispatch, complete = true) => {
   const source = code + '_' + variant
     target = target || source
-  const options = {
-    fileCache : true
-  }
   dispatch(setLoading(true, {title: 'Installing mod', message: `Downloading ${source}.pck ...`}))
-  return RNFetchBlob.config(options).fetch('GET', `https://phasmaexmachina.github.io/destiny-child-mods-archive/characters/${code}_${variant}/${hash}/${code}_${variant}.pck`).then((res) => {
+  return RNFetchBlob.config({fileCache : true}).fetch('GET', `https://phasmaexmachina.github.io/destiny-child-mods-archive/characters/${code}_${variant}/${hash}/${code}_${variant}.pck`).then((res) => {
     const installedTo = [],
           attempts = [],
           complete = () => RNFS.unlink(res.path())
