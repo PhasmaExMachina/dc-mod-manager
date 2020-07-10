@@ -133,7 +133,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "0.0.4"
+        versionName "0.0.5"
     }
     splits {
         abi {
@@ -221,6 +221,8 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    // compile project(':RNSendIntentModule')
 }
 
 // Run this once to be able to run the application with BUCK

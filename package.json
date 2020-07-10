@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "build": "cd android && ./gradlew assembleRelease && cd .."
+    "build": "node ./scripts/pre-build.js && cd android && ./gradlew assembleRelease && cd .."
   },
   "dependencies": {
     "@react-native-community/slider": "^3.0.0",
