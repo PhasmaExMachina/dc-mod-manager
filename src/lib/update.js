@@ -9,8 +9,11 @@ export const checkForUpdate = () => fetch('https://github.com/PhasmaExMachina/dc
   .then(body => {
     const [_, version] = body.match(/dcmodmanager-v(\d+\.\d+\.\d+).apk/) || []
     let changelog = []
+    // console.log(body.match(/markdown-body(.|\n)*?/))
     try {
-      changelog = body.match(/<ul>[\s\n\r]*(.+?)[\s\n\r]*<\/ul>/m)[1].replace(/<\/?li>/g, '')
+      changelog = body.match(/markdown-body(.|\n)*?<ul>(.|\n)*?<\/ul>/)[0].toString()
+        .match(/<li>(.|\n)*?<\/li>/g)
+        .map(t => t.replace(/<\/?li>/g, ''))
     }
     catch(e) {}
     return currentVersion !== version ? {version, changelog} : false;

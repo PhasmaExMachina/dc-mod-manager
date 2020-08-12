@@ -184,7 +184,9 @@ function App() {
         <Dialog visible={update} onDismiss={() => setUpdate(false)}>
           <Dialog.Title>New update v{update.version} available</Dialog.Title>
           <Dialog.Content>
-            <Paragraph>{update.changelog}</Paragraph>
+          {update.changelog && update.changelog.map(update =>
+            <Paragraph>{update}</Paragraph>
+          )}
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={() => setUpdate(false)}>Cancel</Button>
