@@ -12,7 +12,7 @@ export const getDcModManagerFolderPath = () => {
 }
 
 export const getDestinyChildPath = regionOverride => {
-  const {config: {region}} = store.getState()
+  const { config: { region } } = store.getState()
   return RNFS.ExternalStorageDirectoryPath + `/Android/data/${regions[regionOverride || region]}/`
 }
 
@@ -22,6 +22,10 @@ export const getCharactersPath = () => {
 
 export const getModelInfoPath = () => {
   return getCharactersPath() + 'model_info.json'
+}
+
+export const getListsPath = () => {
+  return getDcModManagerFolderPath() + 'lists/'
 }
 
 export const getSettingsPath = () => {

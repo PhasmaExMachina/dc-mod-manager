@@ -25,6 +25,7 @@ import {fetchModelInfo} from './actions/model-info'
 import {fetchCharacters} from './actions/characters'
 import {loadConfig} from './actions/config'
 import {loadInstalled} from './actions/installed'
+import {loadLists} from './actions/lists'
 import MainView from './MainView'
 import {getDcModManagerFolderPath} from './lib/paths'
 import ScrollTop from './ScrollTop';
@@ -32,7 +33,7 @@ import DCTools from './DCTools'
 import Drawer from './Drawer'
 import RNFS from 'react-native-fs'
 import {pushView} from './actions/view';
-import {setLoading} from './actions/loading';
+import {fetchModders} from './actions/modders';
 import ScaledImage from './ScaledImage'
 import {checkForUpdate, installUpdate} from './lib/update'
 
@@ -64,8 +65,10 @@ function App() {
         loadInitialData = () => {
           store.dispatch(loadConfig())
           store.dispatch(fetchMods())
+          store.dispatch(fetchModders())
           store.dispatch(fetchCharacters())
           store.dispatch(fetchModelInfo())
+          store.dispatch(loadLists())
           DCTools.setTmpPath(RNFS.DocumentDirectoryPath + '/tmp')
           DCTools.setAppsPath(RNFS.ExternalStorageDirectoryPath + '/Android/data')
           checkForUpdate().then(setUpdate)
@@ -172,11 +175,9 @@ function App() {
         </Appbar.Header>
         <View style={{flex: 1,backgroundColor: '#111'}}>
           <StatusBar barStyle="dark-content" />
-          <ScrollTop>
-            <ScrollView contentInsetAdjustmentBehavior="automatic">
-              <MainView />
-            </ScrollView>
-          </ScrollTop>
+          {/* <ScrollTop> */}
+            <MainView />
+          {/* </ScrollTop> */}
         </View>
         {drawerOpen && <Drawer onClose={() => setDrawerOpen(false)} />}
         <Portal>

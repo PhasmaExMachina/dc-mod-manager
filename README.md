@@ -36,3 +36,12 @@ Many other coders and artists have done work over the years that has made this a
 * Eljoseto - Site icon
 
 [Icons](https://materialdesignicons.com/)
+
+## Development
+
+* Seems to work best with [JDK v8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html).
+* or [JDK v11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html).
+* Download and install [Android Development Studio](https://developer.android.com/studio)
+* Use Android Studio SDK Manager to install Android SDK v28
+* Set ANDROID_SDK_ROOT environment variable to the path of the SDK (e.g. C:\Users\USERNAME\AppData\Local\Android\Sdk)
+* Accept licences by running $ANDROID_SDK_ROOT/tools/bin/sdkmanager --licenses (sdkmanager.bat on Windows)

@@ -1,12 +1,14 @@
 import React from 'react'
-import {ScrollView} from 'react-native';
+import {ScrollView, View} from 'react-native';
 
 let ref
 
 function MainScrollView({children}) {
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic" ref={v => ref = v}>
-      {children}
+      <View style={{marginBottom: 70}}>
+        {children}
+      </View>
     </ScrollView>
   )
 }

@@ -1,0 +1,2 @@
+* Added basic mod list support (import/export and install all mods in list planned)
+* Added support for modders

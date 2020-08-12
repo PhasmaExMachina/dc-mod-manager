@@ -1,17 +1,25 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
-import {View, TouchableOpacity, ScrollView} from 'react-native'
-import {Subheading, Button, useTheme, Dialog, Portal, Paragraph, TextInput, Menu, TouchableRipple} from 'react-native-paper'
+import {View, ScrollView, TouchableHighlight} from 'react-native'
+import {Subheading, Button, useTheme, Dialog, Text, Portal, Paragraph, TextInput, Menu, TouchableRipple} from 'react-native-paper'
+import ModderCreditLink from './ModderCreditLink'
 import ModLive2DPreview from './ModLive2DPreview'
 import {pushView} from './actions/view'
 import {install} from './actions/mods'
+import {addModToList} from './actions/lists'
 
-function Mod({mod: {code, variant}, hash, character, pushView, install, characters}) {
-  const {colors} = useTheme(),
+function Mod({mod, hash, character, pushView, install, characters, activeList, addModToList, modder, mods}) {
+  console.log(hash, mod)
+  const {code, variant} = mod,
+        {colors} = useTheme(),
         [installToOpen, setInstallToOpen] = useState(false),
         [swapCode, setSwapCode] = useState(),
         [autocompleteVisible, setAutocompleteVisible] = useState(false),
         [swapName, setSwapName] = useState(''),
+        installOrAddToList = (mod, swapCode) => {
+          if(activeList) addModToList(mod, swapCode)
+          else install(mod, swapCode)
+        },
         characterNames = swapName.length > 2 && installToOpen && autocompleteVisible
           ? Object.keys(characters)
             .reduce((acc, code) => {
@@ -37,15 +45,36 @@ function Mod({mod: {code, variant}, hash, character, pushView, install, characte
         <Subheading>{code}_{variant}</Subheading>
       </View>
       <ModLive2DPreview hash={hash} code={code} variant={variant} />
+      <ModderCreditLink hash={hash} />
+      {modder &&
+        <View style={{
+          marginright: 10,
+          alignSelf: 'flex-end'
+        }}>
+          <TouchableHighlight style={{paddingTop: 10, paddingBottom: 10, paddingRight: 20, paddingLeft: 20}} onPress={() => {
+            if(modder != mod.modder) pushView('modder', {modder})
+          }}>
+            <Paragraph>
+              by <Text style={{color: colors.primary}}>{modder}</Text>
+            </Paragraph>
+          </TouchableHighlight>
+        </View>
+      }
       <View style={{padding: 20}}>
         {Object.keys(character.variants).sort().map(v => (
           <View style={{marginBottom: 10}} key={v}>
-            <Button icon={variant === v ? 'cloud-download' : 'swap-horizontal-bold'} mode="contained" onPress={() => install({hash, code, variant}, code + '_' + v)}>
+            <Button icon={
+              activeList
+                ? 'playlist-plus'
+                : variant === v
+                  ? 'cloud-download'
+                  : 'swap-horizontal-bold'
+              } mode="contained" onPress={() => installOrAddToList({hash, code, variant}, code + '_' + v)}>
               {variant === v ? 'Install to' : 'Swap into'} {code}_{v}.pck
             </Button>
           </View>
         ))}
-        <Button icon="swap-horizontal-bold" mode="contained" onPress={() => setInstallToOpen(true)}>
+        <Button icon={activeList ? 'playlist-plus' : 'swap-horizontal-bold'} mode="contained" onPress={() => setInstallToOpen(true)}>
           Swap into another character
         </Button>
       </View>
@@ -90,7 +119,7 @@ function Mod({mod: {code, variant}, hash, character, pushView, install, characte
             }}>Cancel</Button>
             <Button disabled={!swapCode}
               onPress={() => {
-              install({hash, code, variant}, swapCode)
+              installOrAddToList({hash, code, variant}, swapCode)
               setInstallToOpen(false)
             }}>Install</Button>
           </Dialog.Actions>
@@ -101,12 +130,15 @@ function Mod({mod: {code, variant}, hash, character, pushView, install, characte
 }
 
 export default connect(
-  ({installed, characters, mods, view: {data: {hash}}}) => ({
-    mod: mods[hash],
-    character: mods[hash] && characters[mods[hash].code],
-    hash,
+  ({lists, installed, characters, mods, view}) => ({
+    mod: mods[view.data.hash],
+    character: mods[view.data.hash] && characters[mods[view.data.hash].code],
+    hash: view.data.hash,
     characters,
-    installed
+    installed,
+    activeList: lists.active,
+    view,
+    mods
   }),
-  {pushView, install}
+  {pushView, install, addModToList}
 )(Mod)

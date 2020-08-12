@@ -5,7 +5,8 @@ import Toast from 'react-native-simple-toast'
 import swap from '../lib/swap'
 import {setLoading} from './loading'
 import {getCharactersPath} from '../lib/paths'
-import { writeInstalled } from '../lib/installed'
+import {writeInstalled} from '../lib/installed'
+import {loadInstalled} from '../actions/installed'
 
 export const fetchMods = () =>
   (dispatch) => fetch('https://phasmaexmachina.github.io/destiny-child-mods-archive/data/mods.json')
@@ -57,5 +58,6 @@ export const install = ({hash, code, variant}, target) =>
         installed[target || code + '_' + variant] = {hash}
         dispatch(setLoading(true, {title: 'Saving install information', message: 'Storing installed mod information for later.'}))
         writeInstalled(installed).then(() => dispatch(setLoading(false)))
+        dispatch(loadInstalled())
       })
   }

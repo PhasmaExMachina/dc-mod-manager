@@ -39,6 +39,11 @@ const DrawerNavigation = ({onClose, view, pushView}) => {
               active={view.name === 'mods'}
               onPress={() => navigate('mods')} />
             <Drawer.Item
+              label="Modders"
+              icon="brush"
+              active={view.name === 'modders'}
+              onPress={() => navigate('modders')} />
+            <Drawer.Item
               label="Characters"
               icon="account"
               active={view.name === 'characters'}
@@ -48,6 +53,11 @@ const DrawerNavigation = ({onClose, view, pushView}) => {
               icon="download"
               active={view.name === 'installed'}
               onPress={() => navigate('installed')} />
+            <Drawer.Item
+              label="Mod Lists"
+              icon="format-list-bulleted-square"
+              active={view.name === 'lists'}
+              onPress={() => navigate('lists')} />
             <Drawer.Item
               label="Tools"
               icon="hammer"
