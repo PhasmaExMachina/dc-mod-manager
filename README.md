@@ -4,9 +4,9 @@ DC Mod Manager is an app for Android that lets you browse mods/skins and install
 
 ## Installation & Updates
 
-You can download the latest APK from the [releases page](https://github.com/PhasmaExMachina/dc-mod-manager/releases) by expanding the "Assets" ropdown under the latest release. The easiest way is to download it from your Android phone. See [What is an APK and how do you install one](https://www.androidpit.com/android-for-beginners-what-is-an-apk-file), or [ask Google](http://letmegooglethat.com/?q=how+to+install+apk) if you get stuck.
+You can download the latest APK below or from the [releases page](https://github.com/PhasmaExMachina/dc-mod-manager/releases) by expanding the "Assets" ropdown under the latest release. The easiest way is to download it from your Android phone. See [What is an APK and how do you install one](https://www.androidpit.com/android-for-beginners-what-is-an-apk-file), or [ask Google](http://letmegooglethat.com/?q=how+to+install+apk) if you get stuck.
 
-**[Download latest APK v0.0.7](https://github.com/PhasmaExMachina/dc-mod-manager/releases/download/v0.0.7/dcmodmanager-v0.0.7.apk)** - Check [releases](https://github.com/PhasmaExMachina/dc-mod-manager/releases) too just in case this readme is outdated.
+**[Download latest APK v0.0.7](https://github.com/PhasmaExMachina/dc-mod-manager/releases/download/v0.0.7/dcmodmanager-v0.0.7.apk)**
 
 **Updating** is as easy as installing the newest APK on top of the old one. You should receive an in-app message when a new version is available.
 
