@@ -23,7 +23,7 @@ You can download the latest APK from the [releases page](https://github.com/Phas
 
 ## Known Issues
 
-A full list of known issues can be found here. These are the highlights:
+A full list of known issues can be found [here](https://github.com/PhasmaExMachina/dc-mod-manager/issues/4), but these are the highlights:
 
 * [DC Mod Manager does not work on Bluestacks or Nox](https://github.com/PhasmaExMachina/dc-mod-manager/issues/4)
 
