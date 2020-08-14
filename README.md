@@ -12,7 +12,7 @@ You can download the latest APK from the [releases page](https://github.com/Phas
 
 ## Features
 
-* Easily browse virtually every mod ever released
+* Browse virtually every mod ever released
 * Live2D preview - based on work by [Arsylk](https://github.com/Arsylk)
 * Install mods with the push of a button
 * Swap mods into any variant or character - based on work by [Arsylk](https://github.com/Arsylk)
