@@ -1,3 +1,0 @@
-* Fixed Live 2D preview zooming
-* Install mod options is now in a dialog
-* Added uninstall functionality
