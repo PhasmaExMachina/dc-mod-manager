@@ -97,7 +97,6 @@ function MainView({view, popHistory, pushView, loading, activeList, setActiveLis
         }}
         onLayout={event => {
           var {x, y, width, height} = event.nativeEvent.layout
-          console.log('setting height', height)
           setActiveListHeight(height)
         }}>
           <IconButton

@@ -46,7 +46,7 @@ function Character({character, pushView, code, installed}) {
               </Headline>
             </TouchableHighlight>
             {character.variants[variant].mods.map(hash => (
-              <ModPreview code={code} variant={variant} hash={hash} />
+              <ModPreview code={code} variant={variant} hash={hash} key={hash} />
             ))}
           </View>
         ))}

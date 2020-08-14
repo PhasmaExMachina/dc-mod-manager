@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
-import {View, ScrollView, TouchableHighlight} from 'react-native'
+import {View, ScrollView, TouchableHighlight, Dimensions} from 'react-native'
 import {Subheading, Button, useTheme, Dialog, Text, Portal, Paragraph, TextInput, Menu, TouchableRipple} from 'react-native-paper'
 import ModderCreditLink from './ModderCreditLink'
 import ModLive2DPreview from './ModLive2DPreview'
@@ -8,17 +8,29 @@ import {pushView} from './actions/view'
 import {install} from './actions/mods'
 import {addModToList} from './actions/lists'
 
-function Mod({mod, hash, character, pushView, install, characters, activeList, addModToList, modder, mods}) {
-  console.log(hash, mod)
+function Mod({mod, hash, character, pushView, install, characters, activeList, addModToList, modder, mods, installed}) {
   const {code, variant} = mod,
         {colors} = useTheme(),
         [installToOpen, setInstallToOpen] = useState(false),
+        [installOpen, setInstallOpen] = useState(false),
         [swapCode, setSwapCode] = useState(),
         [autocompleteVisible, setAutocompleteVisible] = useState(false),
         [swapName, setSwapName] = useState(''),
-        installOrAddToList = (mod, swapCode) => {
-          if(activeList) addModToList(mod, swapCode)
-          else install(mod, swapCode)
+        installOrAddToList = (mod, target) => {
+          const isInstalled = installed[target] && installed[target].hash == mod.hash,
+                [targetCode, targetVariant] = target.split('_')
+          console.log(isInstalled, targetCode, targetVariant)
+          if(activeList) {
+            addModToList(mod, target)
+          }
+          else {
+            install(
+              isInstalled
+                ? {hash: characters[targetCode].variants[targetVariant].mods[0], code: targetCode, variant: targetVariant}
+                : mod,
+              target
+            )
+          }
         },
         characterNames = swapName.length > 2 && installToOpen && autocompleteVisible
           ? Object.keys(characters)
@@ -32,8 +44,8 @@ function Mod({mod, hash, character, pushView, install, characters, activeList, a
             .filter(name => name.toLowerCase().indexOf(swapName.toLowerCase()) > -1).slice(0, 10)
           : []
   return (
-    <>
-      <View style={{padding: 20, flex: 1, flexDirection: 'row', marginBottom: -20}}>
+    <View>
+      <View style={{padding: 20, flex: 1, flexDirection: 'row', marginBottom: -20,}}>
         <TouchableRipple onPress={() => pushView('characters')}>
           <Subheading style={{color: colors.primary}}>Characters</Subheading>
         </TouchableRipple>
@@ -46,21 +58,12 @@ function Mod({mod, hash, character, pushView, install, characters, activeList, a
       </View>
       <ModLive2DPreview hash={hash} code={code} variant={variant} />
       <ModderCreditLink hash={hash} />
-      {modder &&
-        <View style={{
-          marginright: 10,
-          alignSelf: 'flex-end'
-        }}>
-          <TouchableHighlight style={{paddingTop: 10, paddingBottom: 10, paddingRight: 20, paddingLeft: 20}} onPress={() => {
-            if(modder != mod.modder) pushView('modder', {modder})
-          }}>
-            <Paragraph>
-              by <Text style={{color: colors.primary}}>{modder}</Text>
-            </Paragraph>
-          </TouchableHighlight>
-        </View>
-      }
-      <View style={{padding: 20}}>
+      <View style={{marginTop: 10, marginRight: 20, marginLeft: 20}}>
+        <Button icon="cellphone-arrow-down" mode="contained" onPress={() => setInstallOpen(true)}>
+          Install Mod
+        </Button>
+      </View>
+      {/* <View style={{padding: 20}}>
         {Object.keys(character.variants).sort().map(v => (
           <View style={{marginBottom: 10}} key={v}>
             <Button icon={
@@ -77,7 +80,46 @@ function Mod({mod, hash, character, pushView, install, characters, activeList, a
         <Button icon={activeList ? 'playlist-plus' : 'swap-horizontal-bold'} mode="contained" onPress={() => setInstallToOpen(true)}>
           Swap into another character
         </Button>
-      </View>
+      </View> */}
+      <Portal>
+        <Dialog visible={installOpen} onDismiss={() => setInstallOpen(false)}>
+          <Dialog.Title>Install this Mod</Dialog.Title>
+          <Dialog.Content>
+            {Object.keys(character.variants).sort().map(v => {
+              const isInstalled = installed[code + '_' + v] && installed[code + '_' + v].hash == hash,
+                    isDefaultInstalled = isInstalled && characters[code].variants[v].mods.indexOf(hash) == 0
+              return (
+                <View style={{marginBottom: 10}} key={v}>
+                  <Button icon={
+                    (isInstalled && !isDefaultInstalled)
+                      ? 'cellphone-erase'
+                      : activeList
+                        ? 'playlist-plus'
+                        : variant === v
+                          ? 'cellphone-arrow-down'
+                          : 'swap-horizontal-bold'
+                    }
+                    mode={isInstalled ? "outlined" : "contained"}
+                    onPress={() => installOrAddToList({hash, code, variant}, code + '_' + v)}>
+                    {isDefaultInstalled
+                      ? 'Re-install to'
+                      : isInstalled
+                        ? 'Uninstall from'
+                        : variant === v ? 'Install to' : 'Swap into'
+                    } {code}_{v}
+                  </Button>
+                </View>
+              )}
+            )}
+            <Button icon={activeList ? 'playlist-plus' : 'swap-horizontal-bold'} mode="contained" onPress={() => setInstallToOpen(true)}>
+              Swap into another character
+            </Button>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={() => setInstallOpen(false)}>Done</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
       <Portal>
         <Dialog visible={installToOpen} onDismiss={() => {
           setInstallToOpen(false)
@@ -125,7 +167,7 @@ function Mod({mod, hash, character, pushView, install, characters, activeList, a
           </Dialog.Actions>
         </Dialog>
       </Portal>
-    </>
+    </View>
   )
 }
 

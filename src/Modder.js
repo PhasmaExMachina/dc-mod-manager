@@ -14,7 +14,6 @@ function Modder({modder, pushView, code, installed, mods}) {
           }
           return acc
         }, [])
-  console.log(modderMods)
   return modder
     ? (
       <View style={{padding: 20}}>

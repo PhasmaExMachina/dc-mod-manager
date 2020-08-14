@@ -13,9 +13,9 @@ function ModPreview({mod, hash, pushView, character, target, characters, removeF
         targetCharacter = characters[targetCode],
         targetHash = targetCharacter.variants[targetVariant].mods[0],
         isInstalled = installed[target] && hash == installed[target].hash,
+        isDefaultInstalled = isInstalled && characters[targetCode].variants[targetVariant].mods.indexOf(hash) == 0,
         installedMod = installed[target] && installed[target].hash && Object.assign({}, mods[installed[target].hash], {hash: installed[target].hash})
         mod = Object.assign({}, mod, {hash})
-  console.log(mod, target)
   return (code && character)
     ? (
       <TouchableHighlight style={{marginBottom: 20}}>
@@ -71,11 +71,23 @@ function ModPreview({mod, hash, pushView, character, target, characters, removeF
             <ModderCreditLink hash={hash} />
           </Card.Content>
           <Button
-            icon={isInstalled ? 'check' : 'download'}
-            mode="contained"
-            disabled={isInstalled}
-            onPress={() => install(mod, target)}>
-            Install{isInstalled ? 'ed' : ''} to {target}
+            icon={(isInstalled && !isDefaultInstalled) ? 'cellphone-erase' : 'cellphone-arrow-down'}
+            mode={isInstalled ? 'outlined' : 'contained'}
+            onPress={() => {
+              const [targetCode, targetVariant] = target.split('_')
+              install(
+                isInstalled
+                  ? {hash: characters[targetCode].variants[targetVariant].mods[0], code: targetCode, variant: targetVariant}
+                  : mod,
+                target
+              )
+            }}>
+            {isDefaultInstalled
+              ? 'Re-install to'
+              : isInstalled
+                ? 'Uninstall from'
+                : 'Install to'
+            } {target}
           </Button>
         </Card>
       </TouchableHighlight>
