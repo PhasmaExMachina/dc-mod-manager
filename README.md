@@ -1,16 +1,31 @@
 # DC Mod Manager app for Android
 
-DC Mod Manager is an app for Android that lets you browse mods/skins and install them with a single click. These are only cosmetic changes, and do not effect gameplay in any.
-
-Please report any issues or suggest features [here](https://github.com/PhasmaExMachina/dc-mod-manager/issues).
+DC Mod Manager is an app for Android that lets you browse mods/skins and install them with a single click. These are only cosmetic changes on your own device, and do not effect gameplay or other players in any way.
 
 ## Installation & Updates
 
-You can download the latest APK from the [releases page](https://github.com/PhasmaExMachina/dc-mod-manager/releases) by expanding the "Assets" ropdown under the latest release. The easiest way is to download it from your Android phone and install it that way. See [What is an APK and how do you install one?](https://www.androidpit.com/android-for-beginners-what-is-an-apk-file) or [ask Google](http://letmegooglethat.com/?q=how+to+install+apk) if you get stuck.
+You can download the latest APK from the [releases page](https://github.com/PhasmaExMachina/dc-mod-manager/releases) by expanding the "Assets" ropdown under the latest release. The easiest way is to download it from your Android phone. See [What is an APK and how do you install one](https://www.androidpit.com/android-for-beginners-what-is-an-apk-file), or [ask Google](http://letmegooglethat.com/?q=how+to+install+apk) if you get stuck.
 
-**[Download latest APK v0.0.7](https://github.com/PhasmaExMachina/dc-mod-manager/releases/download/v0.0.7/dcmodmanager-v0.0.7.apk)** - Check [releases](https://github.com/PhasmaExMachina/dc-mod-manager/releases) too just in case this readme is outdated. Note, that people have reported BlueStacks has issues with DC Mod Manager. Try [LDPlayer](https://www.ldplayer.net/) instead. It's a better emulator anyway.
+**[Download latest APK v0.0.7](https://github.com/PhasmaExMachina/dc-mod-manager/releases/download/v0.0.7/dcmodmanager-v0.0.7.apk)** - Check [releases](https://github.com/PhasmaExMachina/dc-mod-manager/releases) too just in case this readme is outdated.
 
-Updating is as easy as installing the newest APK on top of the old one. Automatically checking for updates with easy one click upgrade is [planned](https://github.com/PhasmaExMachina/dc-mod-manager/issues/1).
+**Updating** is as easy as installing the newest APK on top of the old one. You should receive an in-app message when a new version is available.
+
+## Features
+
+* Easily browse virtually every mod ever released
+* Live2D preview - based on work by [Arsylk](https://github.com/Arsylk)
+* Install mods with the push of a button
+* Swap mods into any variant or character - based on work by [Arsylk](https://github.com/Arsylk)
+* Automatically handles model_info.json positioning when swapping
+* One click tool to restore model_info.json positions after an update
+* Create lists of mods installed to specific character variants
+* See modder credits and view mods by modder (work in progress)
+
+## Known Issues
+
+A full list of known issues can be found here. These are the highlights:
+
+* [DC Mod Manager does not work on Bluestacks or Nox](https://github.com/PhasmaExMachina/dc-mod-manager/issues/4)
 
 ## Screenshots
 
