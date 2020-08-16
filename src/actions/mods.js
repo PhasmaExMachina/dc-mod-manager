@@ -15,7 +15,7 @@ export const fetchMods = () =>
 
 export const setMods = mods => ({type: MODS_SET, mods})
 
-const _install =  ({hash, code, variant}, target, {characters}, dispatch, complete = true) => {
+const _install =  ({hash, code, variant}, target, {characters}, dispatch, original) => {
   const source = code + '_' + variant
     target = target || source
   dispatch(setLoading(true, {title: 'Installing mod', message: `Downloading ${source}.pck ...`}))
@@ -23,19 +23,17 @@ const _install =  ({hash, code, variant}, target, {characters}, dispatch, comple
     const installedTo = [],
           attempts = [],
           complete = () => RNFS.unlink(res.path())
-      if(target && target !== source) {
+      // if(target && target !== source) {
+      if(!original) {
         // install original
-        dispatch(setLoading(true, {title: 'Installing mod', message: `Downloading clean ${target} ...`}))
-        return _install({code, variant, hash: characters[code].variants[variant].mods[0]}, source, {characters}, dispatch, false)
-          .then(() => {
-            dispatch(setLoading(true, {title: 'Installing mod', message: `Swapping ${source} into ${target} ...`}))
-            return swap(
-                res.path(),
-                getCharactersPath() + `${target}.pck`,
-                source,
-                target
-              ).then(complete)
-            })
+        dispatch(setLoading(true, {title: 'Installing mod', message: `Swapping ${source} into ${target} ...`}))
+        return swap(
+            res.path(),
+            getCharactersPath() + `${target}.pck`,
+            source,
+            target,
+            hash
+          ).then(complete)
       }
       else {
         return RNFetchBlob.fs.cp(res.path(), getCharactersPath() + `${target}.pck`)

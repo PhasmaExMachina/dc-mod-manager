@@ -19,6 +19,7 @@ import {popHistory} from './actions/history'
 import {pushView} from './actions/view'
 import {setActiveList} from './actions/lists'
 import {BackHandler, Dimensions, View, TouchableOpacity} from 'react-native'
+import ModelInfoEditor from './ModelInfoEditor';
 
 function MainView({view, popHistory, pushView, loading, activeList, setActiveList}) {
   const store = useStore(),
@@ -44,6 +45,7 @@ function MainView({view, popHistory, pushView, loading, activeList, setActiveLis
     case 'edit-list': CurrentView = EditList; break;
     case 'list': CurrentView = List; break;
     case 'lists': CurrentView = Lists; break;
+    case 'modelInfoEditor': CurrentView = ModelInfoEditor; break;
     case 'modder': CurrentView = Modder; break;
     case 'modders': CurrentView = Modders; break;
     case 'installed': CurrentView = InstalledMods; break;

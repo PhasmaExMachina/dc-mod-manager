@@ -7,7 +7,6 @@ import ModPreview from './ModPreview'
 import InstalledPreview from './InstalledPreview'
 
 const Modders = ({modders, pushView}) => {
-  console.log(Object.keys(modders))
   return modders ? (
     <View style={{padding: 20}}>
       <Headline style={{marginBottom: 20}}>

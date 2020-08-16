@@ -19,7 +19,6 @@ function Mod({mod, hash, character, pushView, install, characters, activeList, a
         installOrAddToList = (mod, target) => {
           const isInstalled = installed[target] && installed[target].hash == mod.hash,
                 [targetCode, targetVariant] = target.split('_')
-          console.log(isInstalled, targetCode, targetVariant)
           if(activeList) {
             addModToList(mod, target)
           }
