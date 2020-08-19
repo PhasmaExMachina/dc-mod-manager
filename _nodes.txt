@@ -1,4 +1,0 @@
-* Support for mods with custom model info
-* Basic model_info.json editor under tools
-* Fixed glitch where default would sometimes be installed instead of swap
-* Detect installed mods tool
