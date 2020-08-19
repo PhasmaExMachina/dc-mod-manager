@@ -4,9 +4,10 @@ import {View, TouchableHighlight} from 'react-native'
 import InstalledPreview from './InstalledPreview'
 import {Dialog, Portal, Paragraph, useTheme, Headline, Subheading, Button, Card} from 'react-native-paper'
 import {pushView} from './actions/view'
+import {installList} from './actions/mods'
 import {deleteList, setActiveList, removeModFromList} from './actions/lists'
 
-const List = ({pushView, list, deleteList, setActiveList, activeList, removeModFromList}) => {
+const List = ({pushView, list, deleteList, setActiveList, activeList, removeModFromList, installList, isCommunityList}) => {
   const {colors} = useTheme(),
         [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false)
   return (
@@ -23,6 +24,9 @@ const List = ({pushView, list, deleteList, setActiveList, activeList, removeModF
       </Headline>
       {list.description.replace(/\s/g, '') != '' && <Paragraph style={{marginBottom: 20}}>{list.description}</Paragraph>}
       <Subheading style={{marginBottom: 20}}>Mods</Subheading>
+      <Button mode="contained" style={{marginBottom: 20}} onPress={() => installList(list)}>
+        Install all mods in this list
+      </Button>
       <View style={{marginBottom: 20}}>
         {Object.keys(list.mods).length
           ? Object.keys(list.mods).sort().map(target =>
@@ -33,17 +37,24 @@ const List = ({pushView, list, deleteList, setActiveList, activeList, removeModF
           : <Paragraph>There are no mods in this list yet.</Paragraph>
         }
       </View>
-      <Button
-        disabled={activeList == list}
-        icon="playlist-plus" mode="contained" onPress={() => setActiveList(list)} style={{marginBottom: 20}}>
-        Add Mods
-      </Button>
-      <Button icon="playlist-edit" mode="contained" onPress={() => pushView('edit-list', {list})} style={{marginBottom: 20}}>
-        Edit
-      </Button>
-      <Button icon="delete" mode="outlined" onPress={() => setConfirmDeleteOpen(true)} style={{marginBottom: 20}}>
-        Delete
-      </Button>
+      {!isCommunityList
+        ? <>
+          <Button
+            disabled={activeList == list}
+            icon="playlist-plus" mode="contained" onPress={() => setActiveList(list)} style={{marginBottom: 20}}>
+            Add Mods
+          </Button>
+          <Button icon="playlist-edit" mode="contained" onPress={() => pushView('edit-list', {list})} style={{marginBottom: 20}}>
+            Edit
+          </Button>
+          <Button icon="delete" mode="outlined" onPress={() => setConfirmDeleteOpen(true)} style={{marginBottom: 20}}>
+            Delete
+          </Button>
+        </>
+        : <Button mode="contained" onPress={() => pushView('edit-list', {list: {mods: list.mods, name: list.name + ' - copy'}})}>
+          Copy to personal lists
+        </Button>
+      }
       <Portal>
         <Dialog visible={confirmDeleteOpen} onDismiss={() => setConfirmDeleteOpen(false)}>
           <Dialog.Title>Delete this list?</Dialog.Title>
@@ -63,7 +74,8 @@ const List = ({pushView, list, deleteList, setActiveList, activeList, removeModF
 export default connect(
   state => ({
     list: state.view.data.list,
+    isCommunityList: state.view.data.community,
     activeList: state.lists.active
   }),
-  ({pushView, deleteList, setActiveList, removeModFromList})
+  ({pushView, deleteList, setActiveList, removeModFromList, installList})
 )(List)

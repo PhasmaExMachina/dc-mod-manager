@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import {setLoading} from './actions/loading'
 import {writeModelInfo, readModelInfo} from './lib/model-info'
 import {pushView} from './actions/view'
+import {detectInstalled} from './lib/installed'
 
 const Tools = ({setLoading, installed, modelInfo, mods, pushView}) => {
   const reApplyModelInfo = () => {
@@ -22,6 +23,17 @@ const Tools = ({setLoading, installed, modelInfo, mods, pushView}) => {
   return (
     <View style={{margin: 20}}>
       <Headline style={{marginBottom: 20}}>Tools</Headline>
+      <Card style={{marginBottom: 20}}>
+        <Card.Title title="Installed Mods" />
+        <Card.Content style={{alignItems: 'center'}}>
+          <Button mode="contained" style={{marginBottom: 20, marginTop: 10, width: '100%'}} onPress={detectInstalled}>
+            Detect Installed Mods
+          </Button>
+          <Text>
+            Attempts to detect all mods currently installed. May take a few minutes!
+          </Text>
+        </Card.Content>
+      </Card>
       <Card>
           <Card.Title title="model_info.json" />
           <Card.Content style={{alignItems: 'center'}}>

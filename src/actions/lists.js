@@ -3,6 +3,7 @@ import RNFetchBlob from 'rn-fetch-blob'
 import {getListsPath} from '../lib/paths'
 import toFilename from '../lib/to-filename'
 import {setLoading} from './loading'
+import {doInstall} from './mods'
 import {setView} from './view'
 
 export const LISTS_SET = 'LISTS_SET'
@@ -50,7 +51,7 @@ export const saveList = (list, oldName, navigate = true) =>
     if(oldName) {
       RNFS.unlink(getListsPath() + toFilename(oldName) + '.json')
         .then(doSave)
-        .catch(e => console.log('error', e))
+        .catch(e => doSave())
     }
     else doSave()
   }

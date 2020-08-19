@@ -15,41 +15,32 @@ export const fetchMods = () =>
 
 export const setMods = mods => ({type: MODS_SET, mods})
 
-const _install =  ({hash, code, variant}, target, {characters}, dispatch, original) => {
+const _install =  ({hash, code, variant}, target, {characters}, dispatch, message = true) => {
   const source = code + '_' + variant
     target = target || source
-  dispatch(setLoading(true, {title: 'Installing mod', message: `Downloading ${source}.pck ...`}))
+  if(message) {
+    dispatch(setLoading(true, {title: 'Installing mod', message: `Downloading ${source}.pck ...`}))
+  }
   return RNFetchBlob.config({fileCache : true}).fetch('GET', `https://phasmaexmachina.github.io/destiny-child-mods-archive/characters/${code}_${variant}/${hash}/${code}_${variant}.pck`).then((res) => {
     const installedTo = [],
           attempts = [],
           complete = () => RNFS.unlink(res.path())
-      // if(target && target !== source) {
-      if(!original) {
-        // install original
-        dispatch(setLoading(true, {title: 'Installing mod', message: `Swapping ${source} into ${target} ...`}))
-        return swap(
-            res.path(),
-            getCharactersPath() + `${target}.pck`,
-            source,
-            target,
-            hash
-          ).then(complete)
+      if(message) {
+        dispatch(setLoading(true, {title: 'Installing mod', message: `Installing ${source} into ${target} ...`}))
       }
-      else {
-        return RNFetchBlob.fs.cp(res.path(), getCharactersPath() + `${target}.pck`)
-          .then(complete)
-          .catch(e => {
-            console.log(e)
-            Toast.show('Error installing mod:\n' + e.message,  Toast.LONG)
-          })
-      }
+      return swap(
+          res.path(),
+          getCharactersPath() + `${target}.pck`,
+          source,
+          target,
+          hash
+        ).then(complete)
   })
 }
 
-
-export const install = ({hash, code, variant}, target) =>
+export const install = ({hash, code, variant}, target, message = true) =>
   (dispatch, getState) => {
-    _install({hash, code, variant}, target, getState(), dispatch)
+    _install({hash, code, variant}, target, getState(), dispatch, message)
       .then(() => {
         Toast.show(`Installed to ${target}`)
         const {installed} = getState()
@@ -58,4 +49,39 @@ export const install = ({hash, code, variant}, target) =>
         writeInstalled(installed).then(() => dispatch(setLoading(false)))
         dispatch(loadInstalled())
       })
+  }
+
+
+export const installList = list =>
+  (dispatch, getState) => {
+    const targets = Object.keys(list.mods),
+          {mods, characters, installed} = getState()
+    console.log('installing list', list)
+    let i = -1
+    const processNextMod = () => {
+      i++
+      if(i == targets.length) {
+        writeInstalled(installed).then(() => {
+          dispatch(loadInstalled())
+          dispatch(setLoading(false))
+        })
+        return
+      }
+      else {
+        dispatch(setLoading(true, {
+          title: 'Installing ' + list.name,
+          message: 'Installing ' + targets[i] + ' ...',
+          progress: i,
+          total: targets.length
+        }))
+        const target = targets[i],
+              hash = list.mods[target].hash,
+              mod = Object.assign({hash}, mods[hash])
+        _install(mod, target, {characters}, dispatch, false).then(() => {
+          installed[target] = {hash}
+          processNextMod()
+        })
+      }
+    }
+    processNextMod()
   }

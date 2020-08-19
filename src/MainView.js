@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {connect, useStore} from 'react-redux'
-import {Paragraph, Dialog, Portal, useTheme, Button, IconButton} from 'react-native-paper'
+import {Paragraph, Dialog, Portal, useTheme, Button, Text, IconButton} from 'react-native-paper'
 import Character from './Character'
 import ScrollTop from './ScrollTop';
 import Characters from './Characters'
@@ -65,6 +65,24 @@ function MainView({view, popHistory, pushView, loading, activeList, setActiveLis
             <Dialog.Title>{loading.title}</Dialog.Title>
             <Dialog.Content>
               <Paragraph>{loading.message}</Paragraph>
+              {typeof loading.progress != 'undefined' && !!loading.total &&
+                <View style={{marginTop: 30, position: 'relative'}}>
+                  <View style={{marginLeft: 35}}>
+                    <View style={{
+                      width: ((loading.progress / loading.total) * 100) +'%',
+                      height: 4, backgroundColor: '#666',
+                      marginBottom: 20
+                    }} />
+                  </View>
+                  <Text style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: -8
+                  }}>
+                    {Math.round((loading.progress / loading.total) * 100)}%
+                  </Text>
+                </View>
+              }
             </Dialog.Content>
           </Dialog>
         </Portal>

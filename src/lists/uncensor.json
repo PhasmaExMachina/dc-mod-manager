@@ -1,0 +1,166 @@
+{
+  "name": "Uncensor",
+  "description": "Original versions of characters that were censored for the global version of the game.",
+  "mods": {
+    "c001_16": {
+      "hash": "6edf54f18d60d73e0b7db51c5c687509",
+      "code": "c001",
+      "variant": "16"
+    },
+    "c002_12": {
+      "hash": "945a83bf790965d7c3c398b22b47ae3a",
+      "code": "c002",
+      "variant": "12"
+    },
+    "c005_01": {
+      "hash": "f84af4cb09a3d96caa5d442bf3fbda83",
+      "code": "c005",
+      "variant": "01"
+    },
+    "c005_02": {
+      "hash": "0e72004bde9d46b15aefd593a5027105",
+      "code": "c005",
+      "variant": "02"
+    },
+    "c008_01": {
+      "hash": "a137bc93f5c8078d2dae827d2251e316",
+      "code": "c008",
+      "variant": "01"
+    },
+    "c008_02": {
+      "hash": "2ca01ff037c2a3cb5b79a07552fadb03",
+      "code": "c008",
+      "variant": "02"
+    },
+    "c013_01": {
+      "hash": "1ddb48d7f3c8d9120d3f372a328f80f6",
+      "code": "c013",
+      "variant": "01"
+    },
+    "c013_02": {
+      "hash": "92ab2fb01727488947d3a0798702b641",
+      "code": "c013",
+      "variant": "02"
+    },
+    "c017_02": {
+      "hash": "6b48b48475a7443014bed082993e96a6",
+      "code": "c017",
+      "variant": "02"
+    },
+    "c020_01": {
+      "hash": "18a70b1cb5640ae7d91719c93e02ba1d",
+      "code": "c020",
+      "variant": "01"
+    },
+    "c029_01": {
+      "hash": "5d300099f55c49ea313b391deb35cbd7",
+      "code": "c029",
+      "variant": "01"
+    },
+    "c029_02": {
+      "hash": "816743a3e5b7792a43e93d44e0a59df3",
+      "code": "c029",
+      "variant": "02"
+    },
+    "c031_01": {
+      "hash": "d87b92d9ea5422577c998d8163e0d93b",
+      "code": "c031",
+      "variant": "01"
+    },
+    "c031_02": {
+      "hash": "dd2029dcf3298b22e25b67a034a0f13c",
+      "code": "c031",
+      "variant": "02"
+    },
+    "c040_02": {
+      "hash": "e4948972d1609f9e0e01ed7317cccaf6",
+      "code": "c040",
+      "variant": "02"
+    },
+    "c047_02": {
+      "hash": "76e06015542ac1532e9d9fd38f207a58",
+      "code": "c047",
+      "variant": "02"
+    },
+    "c048_02": {
+      "hash": "2dde874e7bd4ab349460952f3c84bbb9",
+      "code": "c048",
+      "variant": "02"
+    },
+    "c058_01": {
+      "hash": "dd47d85b664123af5941c750fb648a63",
+      "code": "c058",
+      "variant": "01"
+    },
+    "c058_02": {
+      "hash": "6574bf1f1e94ca572e5847aaeb155c76",
+      "code": "c058",
+      "variant": "02"
+    },
+    "c095_01": {
+      "hash": "c7647c860c0125ed1088e96dabf4d460",
+      "code": "c095",
+      "variant": "01"
+    },
+    "c095_02": {
+      "hash": "910640ac109b48a9d4801b92141a1c9f",
+      "code": "c095",
+      "variant": "02"
+    },
+    "c176_01": {
+      "hash": "2eea61faac1f31b728fb25035536ad57",
+      "code": "c176",
+      "variant": "01"
+    },
+    "c196_02": {
+      "hash": "e8bb79b39b30a064817370f495a0c14a",
+      "code": "c196",
+      "variant": "02"
+    },
+    "c176_02": {
+      "hash": "51a2930c2a7dfac67d4445c9b147aec1",
+      "code": "c176",
+      "variant": "02"
+    },
+    "c311_02": {
+      "hash": "9b3b71b3e6b2b4e5e3189261ea29dbcd",
+      "code": "c311",
+      "variant": "02"
+    },
+    "c318_10": {
+      "hash": "5c6e8e71824b8bbc44da258a4b318060",
+      "code": "c318",
+      "variant": "10"
+    },
+    "c338_01": {
+      "hash": "85b572202018a489de66dfd571e76bd8",
+      "code": "c338",
+      "variant": "01"
+    },
+    "c338_02": {
+      "hash": "4d0d6f4403d597e7a9df1fe90488c71e",
+      "code": "c338",
+      "variant": "02"
+    },
+    "c374_01": {
+      "hash": "f2506b8bcfe4fa455ca2d514ca8973ba",
+      "code": "c374",
+      "variant": "01"
+    },
+    "c374_02": {
+      "hash": "f2f732ffc1bcab6e87420fb51b193b64",
+      "code": "c374",
+      "variant": "02"
+    },
+    "c377_10": {
+      "hash": "9abe2db438e0c6eed12f23a8a64a80c0",
+      "code": "c377",
+      "variant": "10"
+    },
+    "c393_10": {
+      "hash": "12996d0508efb01767611133d4f20646",
+      "code": "c393",
+      "variant": "10"
+    }
+  }
+}
