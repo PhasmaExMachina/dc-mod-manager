@@ -15,10 +15,14 @@ You can download the latest APK below or from the [releases page](https://github
 * Browse virtually every mod ever released
 * Live2D preview - based on work by [Arsylk](https://github.com/Arsylk)
 * Install mods with the push of a button
+* Create personal lists of mods installed to specific character variants
+* Community lists like fully uncensor - [nude all coming soon](https://github.com/PhasmaExMachina/dc-mod-manager/issues/16)
+* Install all mods in a lists with the push of a button
 * Swap mods into any variant or character - based on work by [Arsylk](https://github.com/Arsylk)
 * Automatically handles model_info.json positioning when swapping
 * One click tool to restore model_info.json positions after an update
-* Create lists of mods installed to specific character variants
+* Basic model_info.json editor to tweak character scale and position
+* Tool to automatically detect all installed mods - still working on [detecting installed swaps](https://github.com/PhasmaExMachina/dc-mod-manager/issues/15)
 * See modder credits and view mods by modder (work in progress)
 
 ## Known Issues
