@@ -14,7 +14,7 @@ const List = ({pushView, view, characters, deleteList, setActiveList, activeList
         [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false),
         [filter, setFilter] = useState(''),
         itemsPerPage = 10,
-        modKeys = Object.keys(list.mods),
+        modKeys = Object.keys(list.mods).sort(),
         from = page * itemsPerPage,
         to = (page + 1) * itemsPerPage,
         filteredModKeys = filter.replace(/\s/g, '')
@@ -50,7 +50,7 @@ const List = ({pushView, view, characters, deleteList, setActiveList, activeList
             Delete this list
           </Button>
         </>
-        : <Button icon="playlist-plus" mode="contained" onPress={() => pushView('edit-list', {list: {mods: list.mods, name: list.name + ' - copy'}})} style={{marginBottom: 20}}>
+        : <Button icon="playlist-plus" mode="contained" onPress={() => pushView('edit-list', {list: {mods: list.mods, description: 'Coppied from ' + list.name + ' community list'}})} style={{marginBottom: 20}}>
           Copy to personal lists
         </Button>
       }
@@ -71,7 +71,7 @@ const List = ({pushView, view, characters, deleteList, setActiveList, activeList
       />
       <View style={{marginBottom: 20}}>
         {filteredModKeys.length
-          ? filteredModKeys.sort().slice(from, to).map(target =>
+          ? filteredModKeys.slice(from, to).map(target =>
             <InstalledPreview hash={list.mods[target].hash} key={target} target={target} removeFromList={() => {
               removeModFromList(target, list)
             }}/>
