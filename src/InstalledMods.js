@@ -9,6 +9,7 @@ import { detectInstalled } from './lib/installed'
 const InstalledMods = ({installed, characters, pushView, page = 0}) => {
   const [filter, setFilter] = useState(''),
         modKeys = Object.keys(installed).sort(),
+        itemsPerPage = 10,
         from = page * itemsPerPage,
         to = (page + 1) * itemsPerPage,
         filteredModKeys = filter.replace(/\s/g, '')
