@@ -12,6 +12,7 @@ const List = ({pushView, view, characters, deleteList, setActiveList, activeList
   const {list, community, page = 0} = view,
         {colors} = useTheme(),
         [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false),
+        [confirmInstallOpen, setConfirmInstallOpen] = useState(false),
         [filter, setFilter] = useState(''),
         itemsPerPage = 10,
         modKeys = Object.keys(list.mods).sort(),
@@ -54,7 +55,7 @@ const List = ({pushView, view, characters, deleteList, setActiveList, activeList
           Copy to personal lists
         </Button>
       }
-      <Button mode="contained" style={{marginBottom: 20}} onPress={() => installList(list)} icon="cellphone-arrow-down">
+      <Button mode="contained" style={{marginBottom: 20}} onPress={() => setConfirmInstallOpen(true)} icon="cellphone-arrow-down">
         Install all {modKeys.length} mods
       </Button>
       <Subheading style={{marginBottom: 20}}>Mods</Subheading>
@@ -94,6 +95,19 @@ const List = ({pushView, view, characters, deleteList, setActiveList, activeList
           <Dialog.Actions>
             <Button onPress={() => setConfirmDeleteOpen(false)}>Cancel</Button>
             <Button onPress={() => deleteList(list)}>Confirm</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
+      <Portal>
+        <Dialog visible={confirmInstallOpen} onDismiss={() => setConfirmInstallOpen(false)}>
+          <Dialog.Title>Install all mods in this list?</Dialog.Title>
+          <Dialog.Content>
+            <Paragraph style={{fontWeight: 'bold'}}>This could take around {Math.round(modKeys.length * .05)} minutes.</Paragraph>
+            <Paragraph>Are you sure you want to install all {modKeys.length} mods in this list? The process shouldn't be interrupted, so be prepared to leave your phone alone, and maybe plugged in while the list installs.</Paragraph>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={() => setConfirmInstallOpen(false)}>Cancel</Button>
+            <Button onPress={() => installList(list)}>Confirm</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
