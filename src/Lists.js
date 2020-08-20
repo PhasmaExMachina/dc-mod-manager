@@ -4,6 +4,7 @@ import {View} from 'react-native'
 import {Headline, Button, Paragraph} from 'react-native-paper'
 import {pushView} from './actions/view'
 import uncensorList from './lists/uncensor.json'
+import anubisList from './lists/anubis.json'
 
 const Lists = ({pushView, lists}) => {
   return (
@@ -33,6 +34,9 @@ const Lists = ({pushView, lists}) => {
         </Paragraph>
         <Button key={uncensorList.name} onPress={() => pushView('list', {list: uncensorList, community: true})}>
           {uncensorList.name} - {Object.keys(uncensorList.mods).length} mods
+        </Button>
+        <Button key={anubisList.name} onPress={() => pushView('list', {list: anubisList, community: true})}>
+          {anubisList.name} - {Object.keys(anubisList.mods).length} mods
         </Button>
       </View>
     </View>
