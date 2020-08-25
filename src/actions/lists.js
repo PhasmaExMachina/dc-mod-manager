@@ -8,9 +8,19 @@ import {setView} from './view'
 
 export const LISTS_SET = 'LISTS_SET'
 export const LISTS_SET_ACTIVE = 'LISTS_SET_ACTIVE'
+export const LISTS_COMMUNITY_SET = 'LISTS_COMMUNITY_SET'
 
 export const loadLists = () =>
-  dispatch =>
+  dispatch => {
+    fetch('https://phasmaexmachina.github.io/destiny-child-mods-archive/data/lists.json')
+      .then(response => response.json())
+      .then(listNames => {
+        listNames.forEach(listName =>
+          fetch(`https://phasmaexmachina.github.io/destiny-child-mods-archive/data/lists/${listName}.json`)
+            .then(response => response.json())
+            .then(list => dispatch(setCommunityList(listName, list)))
+        )
+      })
     RNFS.exists(getListsPath()).then(exists => exists
       ? RNFS.readDir(getListsPath())
         .then(files => {
@@ -34,6 +44,7 @@ export const loadLists = () =>
       : RNFS.mkdir(getListsPath())
         .catch(e => console.log('error', e))
     )
+  }
 
 export const saveList = (list, oldName, navigate = true) =>
   dispatch => {
@@ -84,3 +95,9 @@ export const removeModFromList = (target, list) =>
     dispatch(saveList(list, false, false))
     dispatch(setView('list', {list: {...list}}))
   }
+
+export const setCommunityList = (listName, list) => ({
+  type: LISTS_COMMUNITY_SET,
+  list,
+  listName
+})

@@ -3,10 +3,8 @@ import {connect} from 'react-redux'
 import {View} from 'react-native'
 import {Headline, Button, Paragraph} from 'react-native-paper'
 import {pushView} from './actions/view'
-import uncensorList from './lists/uncensor.json'
-import anubisList from './lists/anubis.json'
 
-const Lists = ({pushView, lists}) => {
+const Lists = ({pushView, lists, community}) => {
   return (
     <View style={{padding: 20}}>
       <Headline style={{marginBottom: 20}}>
@@ -32,12 +30,19 @@ const Lists = ({pushView, lists}) => {
         <Paragraph style={{marginBottom: 20}}>
           The following lists are currated by the community. If you want to suggest a change or submit a list, use the Feedback option in the menu on the top right or ping Phasma on Discord.
         </Paragraph>
-        <Button key={uncensorList.name} onPress={() => pushView('list', {list: uncensorList, community: true})}>
-          {uncensorList.name} - {Object.keys(uncensorList.mods).length} mods
-        </Button>
-        <Button key={anubisList.name} onPress={() => pushView('list', {list: anubisList, community: true})}>
-          {anubisList.name} - {Object.keys(anubisList.mods).length} mods
-        </Button>
+        <View style={{marginBottom: 20}}>
+          {Object.keys(community).length == 0
+            ? <Paragraph>Loading community lists ...</Paragraph>
+            : Object.keys(community).map(listName => {
+              const list = community[listName]
+              return (
+                <Button key={list.name} onPress={() => pushView('list', {list})}>
+                  {list.name} - {Object.keys(list.mods).length} mods
+                </Button>
+              )
+            })
+          }
+        </View>
       </View>
     </View>
   )
@@ -45,7 +50,8 @@ const Lists = ({pushView, lists}) => {
 
 export default connect(
   state => ({
-    lists: state.lists.lists
+    lists: state.lists.lists,
+    community: state.lists.community
   }),
   ({pushView})
 )(Lists)
