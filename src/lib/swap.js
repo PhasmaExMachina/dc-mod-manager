@@ -7,8 +7,7 @@ import {readModelInfo, writeModelInfo} from './model-info'
 export default (source, target, sourceCode, targetCode, hash) => {
   DCTools.swap(source, target)
   const {modelInfo, mods, config: {region}} = store.getState()
-  console.log(JSON.stringify(mods[hash].modelInfo, null, 2), "MODEL INFO SWAPPED")
-  if(modelInfo[sourceCode]) {
+  if(modelInfo[sourceCode] && modelInfo[targetCode]) {
     return readModelInfo()
     .then(localModelInfo => {
         if(localModelInfo[targetCode]) {
@@ -17,5 +16,5 @@ export default (source, target, sourceCode, targetCode, hash) => {
         }
       })
   }
-  else return Promise.resolve(new Promise())
+  else return Promise.resolve(new Promise(resolve => resolve()))
 }

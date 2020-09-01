@@ -6,6 +6,7 @@ import RNFetchBlob from 'rn-fetch-blob'
 import {loadInstalled} from '../actions/installed';
 import {setLoading} from '../actions/loading'
 import { pushView } from '../actions/view';
+import swap from '../lib/swap'
 
 export const readInstalled = () => {
   return RNFS.exists(getInstalledPath()).then(exists => exists
@@ -57,8 +58,31 @@ export const detectInstalled = () => {
                 processNextHash()
               }
               else {
-                // TODO: detect texture hash and compare to known
-                processNextHash()
+                RNFS.copyFile(getCharactersPath() + file, getCharactersPath() + 'c999_00.pck')
+                  .then(() => {
+                    swap(
+                      getCharactersPath() + file,
+                      getCharactersPath() + 'c999_00.pck'
+                    ).then(() => {
+                      RNFS.readDir(RNFS.DocumentDirectoryPath + '/tmp/swap_target').then(dirs => {
+                        const hashPromises = []
+                        let textureHash = ''
+                        dirs.map(({name}) => name).filter(name => name.match(/\.png$/)).forEach(name => {
+                          hashPromises.push(
+                            RNFetchBlob.fs.hash(RNFS.DocumentDirectoryPath + '/tmp/swap_target/' + name, 'md5').then(hash => textureHash += hash)
+                          )
+                        })
+                        Promise.all(hashPromises).then(() => {
+                          const hash = Object.keys(mods).find(hash => {
+                            const mod = mods[hash]
+                            return mod.textureHash == textureHash
+                          })
+                          if(hash && characters[targetCode] && characters[targetCode].variants[targetVariant] && characters[targetCode].variants[targetVariant].mods[0] != hash) installed[target] = {hash}
+                          processNextHash()
+                        })
+                      })
+                    })
+                  })
               }
             }
           })
