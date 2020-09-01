@@ -22,7 +22,7 @@ You can download the latest APK below or from the [releases page](https://github
 * Automatically handles model_info.json positioning when swapping
 * One click tool to restore model_info.json positions after an update
 * Basic model_info.json editor to tweak character scale and position
-* Tool to automatically detect all installed mods - still working on [detecting installed swaps](https://github.com/PhasmaExMachina/dc-mod-manager/issues/15)
+* Tool to automatically detect all installed mods
 * See modder credits and view mods by modder (work in progress)
 
 ## Known Issues
