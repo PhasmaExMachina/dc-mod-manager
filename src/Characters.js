@@ -27,9 +27,7 @@ function Mods({mods, characters, config, view, pushView}) {
           pushView('characters', {...view.data, page: 0, show: val}),
           setShowMenuVisible(false)
         },
-        itemsPerPage = 10,
-        from = page * itemsPerPage,
-        to = (page + 1) * itemsPerPage
+        itemsPerPage = 10
   let filtered = Object.keys(characters).reduce((acc, code) => {
     if(!filter || (`${characters[code].name} ${characters[code].code}`).toLowerCase().match(filter.toLowerCase())) {
       acc.push(characters[code])
@@ -72,6 +70,9 @@ function Mods({mods, characters, config, view, pushView}) {
     })
   }
   if(sort.match('-desc')) filtered.reverse()
+  const from = page * itemsPerPage,
+        to = Math.min((page + 1) * itemsPerPage, filtered.length),
+        numPages = Math.ceil(filtered.length / itemsPerPage)
   return (
     <View style={{padding: 20}}>
       <Headline style={{paddingBottom: 20}}>Characters</Headline>
@@ -107,7 +108,7 @@ function Mods({mods, characters, config, view, pushView}) {
 
       <DataTable.Pagination
         page={page}
-        numberOfPages={Math.floor(filtered.length / itemsPerPage)}
+        numberOfPages={numPages}
         onPageChange={page => setPage(page)}
         label={`${from + 1}-${to} of ${filtered.length}`}
       />
@@ -116,7 +117,7 @@ function Mods({mods, characters, config, view, pushView}) {
       )}
       <DataTable.Pagination
         page={page}
-        numberOfPages={Math.floor(filtered.length / itemsPerPage)}
+        numberOfPages={numPages}
         onPageChange={page => setPage(page)}
         label={`${from + 1}-${to} of ${filtered.length}`}
       />

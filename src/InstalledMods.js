@@ -10,14 +10,15 @@ const InstalledMods = ({installed, characters, pushView, page = 0}) => {
   const [filter, setFilter] = useState(''),
         modKeys = Object.keys(installed).sort(),
         itemsPerPage = 10,
-        from = page * itemsPerPage,
-        to = (page + 1) * itemsPerPage,
         filteredModKeys = filter.replace(/\s/g, '')
           ? modKeys.filter(key => {
             const [code, variant] = key.split('_')
             return (key + characters[code].variants[variant].title + ' ' + characters[code].name).toLowerCase().match(filter.toLowerCase())
           })
-          : modKeys
+          : modKeys,
+        from = page * itemsPerPage,
+        to = Math.min((page + 1) * itemsPerPage, filteredModKeys.length),
+        numPages = Math.ceil(filteredModKeys.length / itemsPerPage)
   return (
     <View style={{margin: 20}}>
       <Headline style={{marginBottom:20}}>Installed Mods</Headline>
@@ -31,7 +32,7 @@ const InstalledMods = ({installed, characters, pushView, page = 0}) => {
         />
       <DataTable.Pagination
         page={page}
-        numberOfPages={Math.floor(filteredModKeys.length / itemsPerPage)}
+        numberOfPages={numPages}
         onPageChange={page => pushView('installed', {page})}
         label={`${from + 1}-${to} of ${filteredModKeys.length}`}
       />
@@ -50,7 +51,7 @@ const InstalledMods = ({installed, characters, pushView, page = 0}) => {
       }
       <DataTable.Pagination
         page={page}
-        numberOfPages={Math.floor(filteredModKeys.length / itemsPerPage)}
+        numberOfPages={numPages}
         onPageChange={page => pushView('installed', {page})}
         label={`${from + 1}-${to} of ${filteredModKeys.length}`}
       />

@@ -16,14 +16,15 @@ const List = ({pushView, view, characters, deleteList, setActiveList, activeList
         [filter, setFilter] = useState(''),
         itemsPerPage = 10,
         modKeys = Object.keys(list.mods).sort(),
-        from = page * itemsPerPage,
-        to = (page + 1) * itemsPerPage,
         filteredModKeys = filter.replace(/\s/g, '')
           ? modKeys.filter(key => {
             const [code, variant] = key.split('_')
             return (key + characters[code].variants[variant].title + ' ' + characters[code].name).toLowerCase().match(filter.toLowerCase())
           })
-          : modKeys
+          : modKeys,
+        from = page * itemsPerPage,
+        to = Math.min((page + 1) * itemsPerPage, filteredModKeys.length),
+        numPages = Math.ceil(filteredModKeys.length / itemsPerPage)
   return (
     <View style={{padding: 20}}>
       <View style={{paddingBottom: 20, flex: 1, flexDirection: 'row'}}>
@@ -66,7 +67,7 @@ const List = ({pushView, view, characters, deleteList, setActiveList, activeList
         />
       <DataTable.Pagination
         page={page}
-        numberOfPages={Math.floor(filteredModKeys.length / itemsPerPage)}
+        numberOfPages={numPages}
         onPageChange={page => pushView('list', Object.assign({}, view, {page}))}
         label={`${from + 1}-${to} of ${filteredModKeys.length}`}
       />
@@ -81,7 +82,7 @@ const List = ({pushView, view, characters, deleteList, setActiveList, activeList
         }
         <DataTable.Pagination
           page={page}
-          numberOfPages={Math.floor(filteredModKeys.length / itemsPerPage)}
+          numberOfPages={numPages}
           onPageChange={page => pushView('list', Object.assign({}, view, {page}))}
           label={`${from + 1}-${to} of ${filteredModKeys.length}`}
         />
