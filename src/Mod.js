@@ -6,9 +6,9 @@ import ModderCreditLink from './ModderCreditLink'
 import ModLive2DPreview from './ModLive2DPreview'
 import {pushView} from './actions/view'
 import {install} from './actions/mods'
-import {addModToList} from './actions/lists'
+import {addModToList, removeModFromList} from './actions/lists'
 
-function Mod({mod, hash, character, pushView, install, characters, activeList, addModToList, modder, mods, installed}) {
+function Mod({mod, hash, character, pushView, install, characters, activeList, addModToList, removeModFromList, modder, mods, installed}) {
   const {code, variant} = mod,
         {colors} = useTheme(),
         [installToOpen, setInstallToOpen] = useState(false),
@@ -18,9 +18,11 @@ function Mod({mod, hash, character, pushView, install, characters, activeList, a
         [swapName, setSwapName] = useState(''),
         installOrAddToList = (mod, target) => {
           const isInstalled = installed[target] && installed[target].hash == mod.hash,
-                [targetCode, targetVariant] = target.split('_')
+          isInList = activeList && activeList.mods[target] && activeList.mods[target].hash == mod.hash,
+          [targetCode, targetVariant] = target.split('_')
           if(activeList) {
-            addModToList(mod, target)
+            if(isInList) removeModFromList(target, activeList)
+            else addModToList(mod, target)
           }
           else {
             install(
@@ -41,7 +43,8 @@ function Mod({mod, hash, character, pushView, install, characters, activeList, a
             }
             , [])
             .filter(name => name.toLowerCase().indexOf(swapName.toLowerCase()) > -1).slice(0, 10)
-          : []
+          : [],
+          hashesInList = activeList && Object.keys(activeList.mods).map(key => activeList.mods[key].hash)
   return (
     <View>
       <View style={{padding: 20, flex: 1, flexDirection: 'row', marginBottom: -20,}}>
@@ -58,8 +61,8 @@ function Mod({mod, hash, character, pushView, install, characters, activeList, a
       <ModLive2DPreview hash={hash} code={code} variant={variant} />
       <ModderCreditLink hash={hash} />
       <View style={{marginTop: 10, marginRight: 20, marginLeft: 20}}>
-        <Button icon="cellphone-arrow-down" mode="contained" onPress={() => setInstallOpen(true)}>
-          Install Mod
+        <Button icon={activeList ? 'playlist-plus' : 'cellphone-arrow-down'} mode="contained" onPress={() => setInstallOpen(true)}>
+          {activeList ? 'Add mod to list' : 'Install Mod'}
         </Button>
       </View>
       {/* <View style={{padding: 20}}>
@@ -86,7 +89,8 @@ function Mod({mod, hash, character, pushView, install, characters, activeList, a
           <Dialog.Content>
             {Object.keys(character.variants).sort().map(v => {
               const isInstalled = installed[code + '_' + v] && installed[code + '_' + v].hash == hash,
-                    isDefaultInstalled = isInstalled && characters[code].variants[v].mods.indexOf(hash) == 0
+                    isDefaultInstalled = isInstalled && characters[code].variants[v].mods.indexOf(hash) == 0,
+                    isActive = (!activeList && isInstalled) || (activeList && activeList.mods[code + '_' + v] && activeList.mods[code + '_' + v].hash == hash)
               return (
                 <View style={{marginBottom: 10}} key={v}>
                   <Button icon={
@@ -98,20 +102,27 @@ function Mod({mod, hash, character, pushView, install, characters, activeList, a
                           ? 'cellphone-arrow-down'
                           : 'swap-horizontal-bold'
                     }
-                    mode={isInstalled ? "outlined" : "contained"}
+                    mode={isActive ? "outlined" : "contained"}
                     onPress={() => installOrAddToList({hash, code, variant}, code + '_' + v)}>
-                    {isDefaultInstalled
-                      ? 'Re-install to'
-                      : isInstalled
-                        ? 'Uninstall from'
-                        : variant === v ? 'Install to' : 'Swap into'
+                    {activeList
+                      ? isActive
+                        ? 'Remove for'
+                        : 'Add to list for'
+                      : isDefaultInstalled
+                        ? 'Re-install to'
+                        : isInstalled
+                          ? 'Uninstall from'
+                          : variant === v ? 'Install to' : 'Swap into'
                     } {code}_{v}
                   </Button>
                 </View>
               )}
             )}
             <Button icon={activeList ? 'playlist-plus' : 'swap-horizontal-bold'} mode="contained" onPress={() => setInstallToOpen(true)}>
-              Swap into another character
+              {activeList
+                ? 'Add to list as swap'
+                : 'Swap into another character'
+              }
             </Button>
           </Dialog.Content>
           <Dialog.Actions>
@@ -181,5 +192,5 @@ export default connect(
     view,
     mods
   }),
-  {pushView, install, addModToList}
+  {pushView, install, addModToList, removeModFromList}
 )(Mod)

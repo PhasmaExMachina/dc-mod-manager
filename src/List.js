@@ -108,7 +108,7 @@ const List = ({pushView, view, characters, deleteList, setActiveList, activeList
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={() => setConfirmInstallOpen(false)}>Cancel</Button>
-            <Button onPress={() => installList(list)}>Confirm</Button>
+            <Button onPress={() => {setConfirmInstallOpen(false); installList(list)}}>Confirm</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>

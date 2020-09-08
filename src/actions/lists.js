@@ -15,12 +15,15 @@ export const loadLists = () =>
     fetch('https://phasmaexmachina.github.io/destiny-child-mods-archive/data/lists.json')
       .then(response => response.json())
       .then(listNames => {
-        listNames.forEach(listName =>
-          fetch(`https://phasmaexmachina.github.io/destiny-child-mods-archive/data/lists/${listName}.json`)
+        listNames.forEach(listName => {
+          console.log(listName)
+          return listName != 'index' && fetch(`https://phasmaexmachina.github.io/destiny-child-mods-archive/data/lists/${listName}.json`)
             .then(response => response.json())
             .then(list => dispatch(setCommunityList(listName, list)))
-        )
+            .catch(e => console.log('Error fetching list', listName))
+        })
       })
+      .catch(e => console.log('Error fetching lists.json'))
     RNFS.exists(getListsPath()).then(exists => exists
       ? RNFS.readDir(getListsPath())
         .then(files => {
@@ -47,7 +50,7 @@ export const loadLists = () =>
   }
 
 export const saveList = (list, oldName, navigate = true) =>
-  dispatch => {
+  (dispatch, getState) => {
     const newName = toFilename(list.name)
     list.mods = list.mods || {}
     const doSave = () =>
@@ -55,6 +58,9 @@ export const saveList = (list, oldName, navigate = true) =>
         .then(() => {
           dispatch(setLoading(false))
           dispatch(loadLists())
+          const {active} = getState().lists
+          console.log('ACTIVE LIST', active)
+          if(list == active) dispatch(setActiveList({...active}))
           if(navigate) dispatch(setView('list', {list}))
         })
     dispatch(setLoading(true, {title: 'Saving list'}))
@@ -93,7 +99,7 @@ export const removeModFromList = (target, list) =>
   (dispatch, getState) => {
     delete list.mods[target]
     dispatch(saveList(list, false, false))
-    dispatch(setView('list', {list: {...list}}))
+    // dispatch(setView('list', {list: {...list}}))
   }
 
 export const setCommunityList = (listName, list) => ({

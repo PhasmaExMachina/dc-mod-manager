@@ -28,7 +28,7 @@ function Modder({modder, pushView, code, installed, mods}) {
           {modder} - {modderMods.length} mods
         </Headline>
         {modderMods.map(({hash, code, variant}) =>
-          <ModPreview code={code} variant={variant} hash={hash} />
+          <ModPreview code={code} variant={variant} key={hash} hash={hash} />
         )}
       </View>
     )
