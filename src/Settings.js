@@ -57,6 +57,10 @@ const Settings = ({config, setConfig}) => {
         <Card.Content>
           <RadioButton.Group onValueChange={value => setConfig({region: value})} value={config.region}>
             <RadioButton.Item
+              label={'Global  (Taptap) - com.linegames.dcglobal.xsolla' + (config.installedRegions.indexOf('global_tap') < 0 ? ' (not installed)' : '')}
+              value="global_tap"
+              disabled={config.installedRegions.indexOf('global_tap') < 0} />
+            <RadioButton.Item
               label={'Global - com.linegames.dcglobal' + (config.installedRegions.indexOf('global') < 0 ? ' (not installed)' : '')}
               value="global"
               disabled={config.installedRegions.indexOf('global') < 0} />

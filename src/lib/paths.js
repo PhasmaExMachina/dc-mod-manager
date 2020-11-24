@@ -2,6 +2,7 @@ import RNFS from 'react-native-fs'
 import store from './store'
 
 const regions = {
+  global_tap: 'com.linegames.dcglobal.xsolla',
   global: 'com.linegames.dcglobal',
   kr: 'com.NextFloor.DestinyChild',
   jp: 'com.stairs.destinychild'
@@ -36,3 +37,5 @@ export const getInstalledPath = () => {
   const region = store.getState().config.region
   return getDcModManagerFolderPath() + `/installed${region}.json`
 }
+
+export  { regions as pathRegions }

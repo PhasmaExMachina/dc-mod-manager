@@ -356,6 +356,11 @@ public class DCTools extends ReactContextBaseJavaModule {
   }
 
   public static File getDCModelInfoPath() {
-    return new File(APPS_PATH + "/com.linegames.dcglobal/files/asset/character/model_info.json");
+    File modelInfo = new File(APPS_PATH + "/com.linegames.dcglobal/files/asset/character/model_info.json");
+    if (!modelInfo.exists()) {
+      modelInfo = new File(APPS_PATH + "/com.linegames.dcglobal.xsolla/files/asset/character/model_info.json");
+    }
+
+    return modelInfo;
   }
 }
