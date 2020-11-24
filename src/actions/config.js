@@ -3,13 +3,13 @@ import {setLoading} from './loading'
 import {loadInstalled} from './installed'
 import {setView} from './view'
 import RNFS from 'react-native-fs'
-import {getSettingsPath, getDestinyChildPath} from '../lib/paths'
+import {getSettingsPath, getDestinyChildPath, pathRegions} from '../lib/paths'
 
 export const loadConfig = () =>
   (dispatch) => {
     const installedRegions = [],
           regionPromises = [];
-    ['global', 'kr', 'jp'].forEach(region => {
+    Object.keys(pathRegions).forEach(region => {
       regionPromises.push(RNFS.exists(getDestinyChildPath(region)).then(exists => {
         if(exists) installedRegions.push(region)
       }))
